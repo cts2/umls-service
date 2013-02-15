@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0">
+	<OCD description="UMLS Plugin" name="UMLS Plugin" id="edu.mayo.cts2.framework.plugin.service.umls">
+	</OCD>
+	<Designate pid="edu.mayo.cts2.framework.plugin.service.umls">
+        <Object ocdref="edu.mayo.cts2.framework.plugin.service.umls"/>
+    </Designate>
+	
+</metatype:MetaData>
