@@ -21,42 +21,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+package edu.mayo.cts2.framework.plugin.service.umls.mybatis;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * The Class CodeSystemRepository.
- *
- * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
+ * Workaround class for http://code.google.com/p/mybatis/issues/detail?id=592
  */
-@Component
-public class CodeSystemRepository {
-	
-	@Resource
-	private CodeSystemMapper codeSystemMapper;
-	
-	@Resource
-	private CodeSystemFactory codeSystemFactory;
-	
-	/**
-	 * Gets the code system by sab.
-	 *
-	 * @param sab the sab
-	 * @return the code system by sab
-	 */
-	public CodeSystem getCodeSystemBySab(String sab){
-		RootSourceDTO dto = this.codeSystemMapper.getRootSourceDTO(sab);
-		
-		if(dto != null){
-			return codeSystemFactory.createCodeSystem(dto);
-		} else {
-			return null;
-		}
-	}
+public class MapperScannerBean extends MapperScannerConfigurer {
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+        super.postProcessBeanDefinitionRegistry((BeanDefinitionRegistry) beanFactory);
+    }
+
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+        // NO-OP
+    }
+
 }
