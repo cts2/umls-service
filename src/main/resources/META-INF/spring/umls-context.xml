@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -13,5 +12,39 @@
 	<context:component-scan base-package="edu.mayo.cts2.framework.plugin.service.umls" />
 
 	<bean class="edu.mayo.cts2.framework.util.spring.UrlConstructorSpringFactory" />
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="edu.mayo.cts2.framework.plugin.service.umls.mapper" />
+	</bean>
+
+	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource"
+		destroy-method="close">
+		<property name="connectionCachingEnabled" value="true" />
+		<property name="URL">
+			<value>jdbc:oracle:thin:@//bmidev4:1522/lexgrid</value>
+		</property>
+		<property name="user">
+			<value>nlm</value>
+		</property>
+		<property name="password">
+			<value>nlm</value>
+		</property>
+		<property name="connectionCacheProperties">
+			<value>
+				MinLimit:1
+				MaxLimit:5
+				InitialLimit:1
+				ConnectionWaitTimeout:120
+				InactivityTimeout:180
+				ValidateConnection:true
+			</value>
+		</property>
+	</bean>
+
 
 </beans>

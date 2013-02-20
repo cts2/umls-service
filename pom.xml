@@ -154,6 +154,24 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
@@ -254,6 +272,13 @@
 	</dependencies>
 
 	<repositories>
+
+		<repository>
+			<id>mayo.internal</id>
+			<name>Internal Mayo Repository</name>
+			<url>http://nexus/content/repositories/thirdparty</url>
+		</repository>
+		
 		<repository>
 			<id>edu.informatics.maven.snapshot</id>
 			<name>Informatics Maven Snapshot Repository</name>

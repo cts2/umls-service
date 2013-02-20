@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper">
+
+  <cache />
+
+  <select id="getRootSourceDTO" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
+  	parameterType="string">
+    SELECT
+    	ABBREVIATION
+    FROM ROOT_SOURCES
+    WHERE
+    	ABBREVIATION = #{sab}
+  </select>
+
+</mapper>
