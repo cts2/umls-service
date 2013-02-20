@@ -21,20 +21,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.mapper;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+
+import edu.mayo.cts2.framework.model.castor.MarshallSuperClass;
+import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
- * The Interface CodeSystemMapper.
+ * The Class CodeSystem.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-public interface CodeSystemMapper {
+public class CodeSystem extends CodeSystemCatalogEntry implements MarshallSuperClass {
 
+	private static final long serialVersionUID = 6647335869373197537L;
+	
 	/**
-	 * Gets the root source dto.
+	 * Instantiates a new code system.
 	 *
-	 * @param sab the sab
-	 * @return the root source dto
+	 * @param rootSourceDTO the root source dto
 	 */
-	public RootSourceDTO getRootSourceDTO(String sab);
+	protected CodeSystem(RootSourceDTO rootSourceDTO){
+		super();
+		this.setCodeSystemName(rootSourceDTO.getAbbreviation());
+	}
+
 }

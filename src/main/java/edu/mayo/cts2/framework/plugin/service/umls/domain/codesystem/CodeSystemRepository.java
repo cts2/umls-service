@@ -21,20 +21,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.mapper;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
- * The Interface CodeSystemMapper.
+ * The Class CodeSystemRepository.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-public interface CodeSystemMapper {
-
+@Component
+public class CodeSystemRepository {
+	
+	@Resource
+	private CodeSystemMapper codeSystemMapper;
+	
+	@Resource 
+	private CodeSystemFactory codeSystemFactory;
+	
 	/**
-	 * Gets the root source dto.
+	 * Gets the code system by sab.
 	 *
 	 * @param sab the sab
-	 * @return the root source dto
+	 * @return the code system by sab
 	 */
-	public RootSourceDTO getRootSourceDTO(String sab);
+	public CodeSystem getCodeSystemBySab(String sab){
+		RootSourceDTO dto = this.codeSystemMapper.getRootSourceDTO(sab);
+		
+		if(dto != null){
+			return codeSystemFactory.createCodeSystem(dto);
+		} else {
+			return null;
+		}
+	}
 }

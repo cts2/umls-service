@@ -25,15 +25,9 @@
 	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource"
 		destroy-method="close">
 		<property name="connectionCachingEnabled" value="true" />
-		<property name="URL">
-			<value>jdbc:oracle:thin:@//bmidev4:1522/lexgrid</value>
-		</property>
-		<property name="user">
-			<value>nlm</value>
-		</property>
-		<property name="password">
-			<value>nlm</value>
-		</property>
+		<property name="URL" value="${jdbcUrl}"/>
+		<property name="user" value="${jdbcUsername}"/>
+		<property name="password" value="${jdbcPassword}"/>
 		<property name="connectionCacheProperties">
 			<value>
 				MinLimit:1

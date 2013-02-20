@@ -21,20 +21,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.mapper;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+
+import org.springframework.stereotype.Component;
+
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
- * The Interface CodeSystemMapper.
- *
+ * A factory for creating CodeSystem objects.
+ * 
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-public interface CodeSystemMapper {
+@Component
+public class CodeSystemFactory {
 
 	/**
-	 * Gets the root source dto.
+	 * Creates a new CodeSystem object.
 	 *
-	 * @param sab the sab
-	 * @return the root source dto
+	 * @param rootSourceDTO the root source dto
+	 * @return the code system
 	 */
-	public RootSourceDTO getRootSourceDTO(String sab);
+	protected CodeSystem createCodeSystem(RootSourceDTO rootSourceDTO){
+		return new CodeSystem(rootSourceDTO);
+	}
 }

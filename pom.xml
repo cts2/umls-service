@@ -154,6 +154,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
@@ -278,7 +284,7 @@
 			<name>Internal Mayo Repository</name>
 			<url>http://nexus/content/repositories/thirdparty</url>
 		</repository>
-		
+
 		<repository>
 			<id>edu.informatics.maven.snapshot</id>
 			<name>Informatics Maven Snapshot Repository</name>
