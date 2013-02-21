@@ -27,6 +27,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
@@ -50,7 +51,7 @@ public class CodeSystemRepository {
 	 * @param sab the sab
 	 * @return the code system by sab
 	 */
-	public CodeSystem getCodeSystemBySab(String sab){
+	public CodeSystemCatalogEntry getCodeSystemBySab(String sab){
 		RootSourceDTO dto = this.codeSystemMapper.getRootSourceDTO(sab);
 		
 		if(dto != null){

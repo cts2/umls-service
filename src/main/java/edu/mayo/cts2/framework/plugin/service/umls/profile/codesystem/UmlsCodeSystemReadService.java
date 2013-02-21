@@ -25,6 +25,8 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
@@ -33,11 +35,15 @@ import edu.mayo.cts2.framework.model.core.OpaqueData;
 import edu.mayo.cts2.framework.model.core.SourceReference;
 import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
+import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemRepository;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemReadService;
 
 @Component
 public class UmlsCodeSystemReadService implements CodeSystemReadService {
 
+	@Resource
+	private CodeSystemRepository codeSystemRepository;
+	
 	@Override
 	public String getServiceName() {
 		// TODO Auto-generated method stub
@@ -69,10 +75,14 @@ public class UmlsCodeSystemReadService implements CodeSystemReadService {
 	}
 
 	@Override
-	public CodeSystemCatalogEntry read(NameOrURI identifier,
+	public CodeSystemCatalogEntry read(
+			NameOrURI identifier,
 			ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return null;
+		if(identifier.getName() != null){
+			return this.codeSystemRepository.getCodeSystemBySab(identifier.getName());
+		} else {
+			throw new UnsupportedOperationException("Read by URI not supported.");
+		}
 	}
 
 	@Override

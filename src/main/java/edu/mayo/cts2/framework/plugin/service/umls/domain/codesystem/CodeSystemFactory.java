@@ -23,8 +23,11 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
+import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
@@ -34,6 +37,9 @@ import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
  */
 @Component
 public class CodeSystemFactory {
+	
+	@Resource
+	private CodeSystemUriHandler codeSystemUriHandler;
 
 	/**
 	 * Creates a new CodeSystem object.
@@ -41,7 +47,13 @@ public class CodeSystemFactory {
 	 * @param rootSourceDTO the root source dto
 	 * @return the code system
 	 */
-	protected CodeSystem createCodeSystem(RootSourceDTO rootSourceDTO){
-		return new CodeSystem(rootSourceDTO);
+	protected CodeSystemCatalogEntry createCodeSystem(RootSourceDTO rootSourceDTO){
+		String sab = rootSourceDTO.getAbbreviation();
+		
+		CodeSystemCatalogEntry entry = new CodeSystemCatalogEntry();
+		entry.setCodeSystemName(sab);
+		entry.setAbout(this.codeSystemUriHandler.getUri(sab));
+		
+		return entry;
 	}
 }

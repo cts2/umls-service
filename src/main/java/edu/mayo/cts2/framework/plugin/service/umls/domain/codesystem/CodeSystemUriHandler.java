@@ -23,27 +23,25 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
 
-import edu.mayo.cts2.framework.model.castor.MarshallSuperClass;
-import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
+import org.springframework.stereotype.Component;
 
 /**
- * The Class CodeSystem.
+ * The Class CodeSystemUriHandler.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-public class CodeSystem extends CodeSystemCatalogEntry implements MarshallSuperClass {
-
-	private static final long serialVersionUID = 6647335869373197537L;
+@Component
+public class CodeSystemUriHandler {
 	
-	/**
-	 * Instantiates a new code system.
-	 *
-	 * @param rootSourceDTO the root source dto
-	 */
-	protected CodeSystem(RootSourceDTO rootSourceDTO){
-		super();
-		this.setCodeSystemName(rootSourceDTO.getAbbreviation());
-	}
+	private final static String NLM_NS = "http://id.nlm.gov/sab/";
 
+	/**
+	 * Gets the uri.
+	 *
+	 * @param sab the sab
+	 * @return the uri
+	 */
+	protected String getUri(String sab){
+		return NLM_NS + sab;
+	}
 }
