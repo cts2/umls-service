@@ -1,37 +1,40 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem
 
-import javax.annotation.Resource
-
-import org.junit.Test
 import static org.junit.Assert.*
 
-import edu.mayo.cts2.framework.model.service.core.NameOrURI;
+import javax.annotation.Resource
+import javax.xml.transform.stream.StreamResult
+
+import org.junit.Test
+
+import edu.mayo.cts2.framework.core.xml.Cts2Marshaller
+import edu.mayo.cts2.framework.model.util.ModelUtils
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase
 
 class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
+
 	@Resource
-	UmlsCodeSystemReadService readService
+	UmlsCodeSystemReadService service
+
+	@Resource
+	Cts2Marshaller marshaller
+	
+	def doRead() {
+		def cs = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
+	
+		cs
+	}
 	
 	@Test
 	void testSetUp(){
-		assertNotNull readService
+		assertNotNull service
 	}
-	
-	@Test
-	void testExists(){
-		
-		NameOrURI csId = new NameOrURI()
-		csId.setName("AIR")
-		assertTrue readService.exists(csId, null)
-		csId.setName("somthingwhichshouldnotexist")
-		assertFalse readService.exists(csId, null)
-	}
-	
-	@Test
-	void testRead(){
-		
-		NameOrURI csId = new NameOrURI()
-		csId.setName("AIR")
-		assertNotNull readService.read(csId, null)
+
+	void TestValidXml() {
+		def cs = doRead()
+
+		assertNotNull cs
+
+		marshaller.marshal(cs, new StreamResult(new StringWriter()))
 	}
 }

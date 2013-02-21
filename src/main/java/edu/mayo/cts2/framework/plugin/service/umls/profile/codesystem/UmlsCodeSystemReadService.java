@@ -23,37 +23,72 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
+import edu.mayo.cts2.framework.model.core.OpaqueData;
+import edu.mayo.cts2.framework.model.core.SourceReference;
+import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
-import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystem;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemRepository;
-import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemReadService;
 
 @Component
-public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implements CodeSystemReadService 
-{
+public class UmlsCodeSystemReadService implements CodeSystemReadService {
+
+	@Resource
+	private CodeSystemRepository codeSystemRepository;
+	
 	@Override
-	public CodeSystemCatalogEntry read(NameOrURI identifier,
-			ResolvedReadContext readContext) 
-	{
-		CodeSystemCatalogEntry cscentry = new CodeSystemCatalogEntry();
-		CodeSystemRepository csrepo = new CodeSystemRepository();
-		CodeSystem cs = csrepo.getCodeSystemBySab(identifier.getName());
-		
-		if (cs != null)
-			cscentry.setCodeSystemName(cs.getCodeSystemName());
-		
-		return cscentry;
+	public String getServiceName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) 
-	{
-		CodeSystemRepository csrepo = new CodeSystemRepository();
-		return (csrepo.getCodeSystemBySab(identifier.getName()) != null);
+	public OpaqueData getServiceDescription() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public String getServiceVersion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SourceReference getServiceProvider() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DocumentedNamespaceReference> getKnownNamespaceList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CodeSystemCatalogEntry read(
+			NameOrURI identifier,
+			ResolvedReadContext readContext) {
+		if(identifier.getName() != null){
+			return this.codeSystemRepository.getCodeSystemBySab(identifier.getName());
+		} else {
+			throw new UnsupportedOperationException("Read by URI not supported.");
+		}
+	}
+
+	@Override
+	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

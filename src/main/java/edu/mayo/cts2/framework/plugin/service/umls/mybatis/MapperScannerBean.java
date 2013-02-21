@@ -21,29 +21,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+package edu.mayo.cts2.framework.plugin.service.umls.mybatis;
 
-import edu.mayo.cts2.framework.model.castor.MarshallSuperClass;
-import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * The Class CodeSystem.
- *
- * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
+ * Workaround class for http://code.google.com/p/mybatis/issues/detail?id=592
  */
-public class CodeSystem extends CodeSystemCatalogEntry implements MarshallSuperClass {
+public class MapperScannerBean extends MapperScannerConfigurer {
 
-	private static final long serialVersionUID = 6647335869373197537L;
-	
-	/**
-	 * Instantiates a new code system.
-	 *
-	 * @param rootSourceDTO the root source dto
-	 */
-	protected CodeSystem(RootSourceDTO rootSourceDTO){
-		super();
-		this.setCodeSystemName(rootSourceDTO.getAbbreviation());
-	}
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+        super.postProcessBeanDefinitionRegistry((BeanDefinitionRegistry) beanFactory);
+    }
+
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+        // NO-OP
+    }
 
 }

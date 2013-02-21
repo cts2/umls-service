@@ -23,37 +23,25 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
 
-import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
-
 /**
- * A factory for creating CodeSystem objects.
- * 
+ * The Class CodeSystemUriHandler.
+ *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
 @Component
-public class CodeSystemFactory {
+public class CodeSystemUriHandler {
 	
-	@Resource
-	private CodeSystemUriHandler codeSystemUriHandler;
+	private final static String NLM_NS = "http://id.nlm.gov/sab/";
 
 	/**
-	 * Creates a new CodeSystem object.
+	 * Gets the uri.
 	 *
-	 * @param rootSourceDTO the root source dto
-	 * @return the code system
+	 * @param sab the sab
+	 * @return the uri
 	 */
-	protected CodeSystemCatalogEntry createCodeSystem(RootSourceDTO rootSourceDTO){
-		String sab = rootSourceDTO.getAbbreviation();
-		
-		CodeSystemCatalogEntry entry = new CodeSystemCatalogEntry();
-		entry.setCodeSystemName(sab);
-		entry.setAbout(this.codeSystemUriHandler.getUri(sab));
-		
-		return entry;
+	protected String getUri(String sab){
+		return NLM_NS + sab;
 	}
 }

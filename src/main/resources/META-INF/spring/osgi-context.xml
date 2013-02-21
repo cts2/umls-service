@@ -15,7 +15,7 @@
 	
 	<osgi:service ref="umlsServiceProvider" interface="edu.mayo.cts2.framework.service.provider.ServiceProvider"/>
 		
-	<osgix:cm-properties id="props" persistent-id="edu.mayo.cts2.framework.plugin.service.lexevs"/>
+	<osgix:cm-properties id="props" persistent-id="edu.mayo.cts2.framework.plugin.service.umls"/>
 
 	<context:property-placeholder properties-ref="props" system-properties-mode="OVERRIDE"/>
 	

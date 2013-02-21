@@ -17,17 +17,24 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean class="edu.mayo.cts2.framework.plugin.service.umls.mybatis.MapperScannerBean">
 		<property name="basePackage"
 			value="edu.mayo.cts2.framework.plugin.service.umls.mapper" />
+	</bean>
+
+	<tx:annotation-driven proxy-target-class="true" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource"
 		destroy-method="close">
 		<property name="connectionCachingEnabled" value="true" />
-		<property name="URL" value="${jdbcUrl}"/>
-		<property name="user" value="${jdbcUsername}"/>
-		<property name="password" value="${jdbcPassword}"/>
+		<property name="URL" value="${jdbcUrl}" />
+		<property name="user" value="${jdbcUsername}" />
+		<property name="password" value="${jdbcPassword}" />
 		<property name="connectionCacheProperties">
 			<value>
 				MinLimit:1
