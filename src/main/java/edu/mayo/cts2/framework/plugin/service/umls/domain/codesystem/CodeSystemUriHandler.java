@@ -41,7 +41,7 @@ public class CodeSystemUriHandler {
 	 * @param sab the sab
 	 * @return the uri
 	 */
-	protected String getUri(String sab){
+	public String getUri(String sab){
 		return NLM_NS + sab;
 	}
 }
