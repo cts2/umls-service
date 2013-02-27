@@ -6,8 +6,6 @@ import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.cluster.ClusterState;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.stereotype.Component;
@@ -40,10 +38,7 @@ public class ElasticSearchDao {
 	}
 	
 	public boolean doesIndexExist(){
-        ClusterState cs = client.admin().cluster().prepareState().setFilterIndices(INDEX_NAME).execute().actionGet().getState();
-        IndexMetaData imd = cs.getMetaData().index(INDEX_NAME);
-        
-        return imd != null;
+		return this.client.prepareCount(INDEX_NAME).execute().actionGet().getCount() > 0;
 	}
 	
 	protected IndexRequest doGetIndexRequest(IndexableEntity indexedEntity){

@@ -20,7 +20,7 @@ import edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO;
 @Component
 public class EntityIndexer implements InitializingBean {
 	
-	private static final int CACHE_SIZE = 1000;
+	private static final int CACHE_SIZE = 10000;
 
 	protected Logger log = Logger.getLogger(this.getClass());
 	
@@ -90,7 +90,7 @@ public class EntityIndexer implements InitializingBean {
 	}
 	
 	protected void flushCache(List<AtomRowDTO> cache){
-		System.out.println("Flushing cache.");
+		log.info("Flushing cache.");
 		Map<String,IndexableEntity> groups = new HashMap<String,IndexableEntity>();
 
 		for(AtomRowDTO row : cache){
