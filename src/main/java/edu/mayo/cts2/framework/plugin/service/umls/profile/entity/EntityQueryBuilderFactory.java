@@ -48,7 +48,11 @@ public class EntityQueryBuilderFactory {
 		}
 		
 		protected EntityQueryBuilder addQuery(EntityDescriptionQuery query){
-			
+			if(query != null){
+				if(query.getFilterComponent() != null){
+					this.restrict(query.getFilterComponent());
+				}
+			}
 			
 			return this;
 		}
