@@ -21,47 +21,55 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.springframework.stereotype.Component;
 
-import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.mayo.cts2.framework.model.directory.DirectoryResult;
+import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
+import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity;
 
 /**
- * The Class CodeSystemRepository.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
 @Component
-public class CodeSystemRepository {
-	
-	@Resource
-	private CodeSystemMapper codeSystemMapper;
-	
-	@Resource
-	private CodeSystemFactory codeSystemFactory;
+public class EntityRepository {
 	
 	@Resource
 	private ElasticSearchDao elasticSearchDao;
-
-	/**
-	 * Gets the code system by sab.
-	 *
-	 * @param sab the sab
-	 * @return the code system by sab
-	 */
-	public CodeSystemCatalogEntry getCodeSystemBySab(String sab){
-		RootSourceDTO dto = this.codeSystemMapper.getRootSourceDTO(sab);
+	
+	@Resource
+	private EntityFactory entityFactory;
+	
+	private ObjectMapper jsonMapper = new ObjectMapper();
+	
+	public DirectoryResult<EntityDirectoryEntry> getEntityDirectoryEntriesByKeyword(QueryBuilder queryBuilder, int start, int end){
+		SearchHits hits = elasticSearchDao.search(queryBuilder, start, end);
 		
-		if(dto != null){
-			return codeSystemFactory.createCodeSystem(dto);
-		} else {
-			return null;
+		List<EntityDirectoryEntry> list = new ArrayList<EntityDirectoryEntry>();
+				
+		for(SearchHit hit : hits.getHits()){
+			try {
+				list.add(
+					entityFactory.createEntityDirectoryEntry(
+						this.jsonMapper.readValue(hit.getSourceAsString(), IndexableEntity.class)));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			} 
 		}
+		
+		return new DirectoryResult<EntityDirectoryEntry>(list, true);
 	}
 }

@@ -11,13 +11,30 @@
 
 	<context:component-scan base-package="edu.mayo.cts2.framework.plugin.service.umls" />
 
+	<bean id="esClient"
+		class="edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchLocalClientFactory">
+		<property name="classpathRoot" value="es" />
+		<property name="autoscan" value="false" />
+		<property name="indexDataDirectory" value="${indexDataDirectory}" />
+		<property name="mappings">
+			<array>
+				<value>umls/entity</value>
+			</array>
+		</property>
+	</bean>
+
 	<bean class="edu.mayo.cts2.framework.util.spring.UrlConstructorSpringFactory" />
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean class="edu.mayo.cts2.framework.plugin.service.umls.mybatis.MapperScannerBean">
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean
+		class="edu.mayo.cts2.framework.plugin.service.umls.mybatis.MapperScannerBean">
 		<property name="basePackage"
 			value="edu.mayo.cts2.framework.plugin.service.umls.mapper" />
 	</bean>

@@ -4,6 +4,7 @@
 		<AD name="JDBC URL" id="jdbcUrl" required="true" type="String" />
 		<AD name="JDBC Password" id="jdbcPassword" required="true" type="String" />
 		<AD name="JDBC User Name" id="jdbcUsername" required="true" type="String" />
+		<AD name="Index Data Directory" id="indexDataDirectory" required="false" default="" type="String" />
 	</OCD>
 	<Designate pid="edu.mayo.cts2.framework.plugin.service.umls">
         <Object ocdref="edu.mayo.cts2.framework.plugin.service.umls"/>

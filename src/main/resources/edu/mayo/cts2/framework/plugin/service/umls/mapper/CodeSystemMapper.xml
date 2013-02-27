@@ -4,8 +4,6 @@
 
 <mapper namespace="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper">
 
-  <cache />
-
   <select id="getRootSourceDTO" 
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
   	parameterType="string">
@@ -14,6 +12,20 @@
     FROM ROOT_SOURCES
     WHERE
     	ABBREVIATION = #{sab}
+  </select>
+  
+  <select id="streamEntities" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO">
+		select 
+			c.UI as UI, 
+			c.ROOT_SOURCE as ROOTSOURCE, 
+			s.NAME as STRING 
+		from Codes c
+		inner join
+			Atoms a on c.id = a.code_id
+		inner join
+			String_Info s on a.string_info_id = s.id
+		order by c.ui
   </select>
 
 </mapper>
