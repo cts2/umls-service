@@ -39,6 +39,10 @@ public class IndexableEntity {
 		
 		private String value;
 		
+		public Description(){
+			super();
+		}
+		
 		public Description(String value){
 			super();
 			this.value = value;
