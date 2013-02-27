@@ -11,8 +11,8 @@ import edu.mayo.cts2.framework.model.core.NameAndMeaningReference;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemUriHandler;
-import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
+import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
 
 @Component
 public class EntityFactory {
@@ -23,7 +23,7 @@ public class EntityFactory {
 	@Resource
 	private CodeSystemUriHandler codeSystemUriHandler;
 	
-	public EntityDirectoryEntry createEntityDirectoryEntry(IndexableEntity indexedEntity){
+	public EntityDirectoryEntry createEntityDirectoryEntry(IndexedEntity indexedEntity){
 		EntityDirectoryEntry entry = new EntityDirectoryEntry();
 		
 		String sab = indexedEntity.getSab();
@@ -41,6 +41,8 @@ public class EntityFactory {
 			
 			entry.addKnownEntityDescription(descriptionInCodeSystem);
 		}
+		
+		entry.setMatchStrength(indexedEntity.getScore());
 		
 		return entry;
 	}

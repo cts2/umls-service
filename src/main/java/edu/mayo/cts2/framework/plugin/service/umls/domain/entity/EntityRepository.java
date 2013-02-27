@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
-import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity;
+import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
 
 /**
  *
@@ -62,9 +62,12 @@ public class EntityRepository {
 				
 		for(SearchHit hit : hits.getHits()){
 			try {
-				list.add(
-					entityFactory.createEntityDirectoryEntry(
-						this.jsonMapper.readValue(hit.getSourceAsString(), IndexableEntity.class)));
+				IndexedEntity entity = 
+					this.jsonMapper.readValue(hit.getSourceAsString(), IndexedEntity.class);
+				
+				entity.setScore(hit.getScore());
+						
+				list.add(entityFactory.createEntityDirectoryEntry(entity));
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			} 
