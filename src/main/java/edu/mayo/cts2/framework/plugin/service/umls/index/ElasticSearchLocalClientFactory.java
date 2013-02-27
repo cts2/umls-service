@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.node.Node;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -26,6 +27,8 @@ public class ElasticSearchLocalClientFactory extends
 	private PluginConfigManager pluginConfigManager;
 	
 	private String indexDataDirectory;
+	
+	private Node node;
 
 	@Override
 	protected Client buildClient() throws Exception {
@@ -35,10 +38,10 @@ public class ElasticSearchLocalClientFactory extends
 		settings.put("path.data", this.getDataDirectory());
 		settings.put("http.enabled", false);
 
-		Node node = nodeBuilder().settings(settings).local(true).data(true)
+		this.node = nodeBuilder().settings(settings).local(true).data(true)
 				.node();
 
-		Client client = node.client();
+		Client client = this.node.client();
 
 		return client;
 	}
@@ -53,6 +56,12 @@ public class ElasticSearchLocalClientFactory extends
 			
 			return workDirectory.getAbsolutePath();
 		}
+	}
+	
+	@Override
+	public void destroy() throws Exception {
+		super.destroy();
+		this.node.stop();
 	}
 
 	public String getIndexDataDirectory() {
