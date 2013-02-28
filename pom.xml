@@ -140,6 +140,7 @@
 							!spring-expression,
 							!commons-logging,
 							!aopalliance,
+							!log4j,
 							scala-library,
 							*;scope=compile|runtime;inline=false
 						</Embed-Dependency>
