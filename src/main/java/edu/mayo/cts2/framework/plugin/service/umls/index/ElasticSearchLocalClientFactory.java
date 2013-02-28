@@ -37,8 +37,12 @@ public class ElasticSearchLocalClientFactory extends
 		settings.put("path.data", this.getDataDirectory());
 		settings.put("http.enabled", false);
 
-		this.node = nodeBuilder().settings(settings).local(true).data(true)
-				.node();
+		log.info("Starting ElasticSearch Node.");
+		this.node = nodeBuilder().
+				settings(settings).
+				local(true).
+				data(true).
+				node();
 
 		Client client = this.node.client();
 
@@ -59,6 +63,7 @@ public class ElasticSearchLocalClientFactory extends
 	
 	@Override
 	public void destroy() throws Exception {
+		log.info("Shutting down ElasticSearch Node.");
 		super.destroy();
 		this.node.stop();
 	}
