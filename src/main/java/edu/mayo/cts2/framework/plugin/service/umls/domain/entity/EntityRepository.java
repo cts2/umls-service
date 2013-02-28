@@ -65,7 +65,7 @@ public class EntityRepository {
 				IndexedEntity entity = 
 					this.jsonMapper.readValue(hit.getSourceAsString(), IndexedEntity.class);
 				
-				entity.setScore(hit.getScore());
+				entity.setScore(this.floatToDouble(hit.getScore()));
 						
 				list.add(entityFactory.createEntityDirectoryEntry(entity));
 			} catch (Exception e) {
@@ -74,5 +74,9 @@ public class EntityRepository {
 		}
 		
 		return new DirectoryResult<EntityDirectoryEntry>(list, true);
+	}
+	
+	private double floatToDouble(float f){
+		return (double)f;
 	}
 }

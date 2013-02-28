@@ -32,15 +32,16 @@ public class EntityFactory {
 		
 		entry.setAbout(entityUriHandler.getUri(sab, name));
 
-		for(Description description : indexedEntity.getDescriptions()){
-			DescriptionInCodeSystem descriptionInCodeSystem = new DescriptionInCodeSystem();
-			descriptionInCodeSystem.setDesignation(description.getValue());
-			descriptionInCodeSystem.
-				setDescribingCodeSystemVersion(
-					this.buildCodeSystemVersionReference(sab));
-			
-			entry.addKnownEntityDescription(descriptionInCodeSystem);
-		}
+		//TODO: Need to better determine ranking
+		Description description = indexedEntity.getDescriptions().get(0);
+		
+		DescriptionInCodeSystem descriptionInCodeSystem = new DescriptionInCodeSystem();
+		descriptionInCodeSystem.setDesignation(description.getValue());
+		descriptionInCodeSystem.
+			setDescribingCodeSystemVersion(
+				this.buildCodeSystemVersionReference(sab));
+		
+		entry.addKnownEntityDescription(descriptionInCodeSystem);
 		
 		entry.setMatchStrength(indexedEntity.getScore());
 		
