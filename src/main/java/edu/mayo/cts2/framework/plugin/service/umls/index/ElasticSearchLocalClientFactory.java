@@ -42,7 +42,7 @@ public class ElasticSearchLocalClientFactory extends
 			node = nodeBuilder().
 					settings(settings).
 					local(true).
-					data(true).build();
+					data(true).node();
 		}
 
 		Client client = node.client();
