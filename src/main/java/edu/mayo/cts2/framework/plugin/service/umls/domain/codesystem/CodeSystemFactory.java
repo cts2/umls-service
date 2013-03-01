@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
+import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
@@ -53,6 +54,8 @@ public class CodeSystemFactory {
 		CodeSystemCatalogEntry entry = new CodeSystemCatalogEntry();
 		entry.setCodeSystemName(sab);
 		entry.setAbout(this.codeSystemUriHandler.getUri(sab));
+		entry.setFormalName(rootSourceDTO.getShortName());
+		entry.setRights(ModelUtils.createOpaqueData(rootSourceDTO.getLicense()));
 		
 		return entry;
 	}

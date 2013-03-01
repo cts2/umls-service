@@ -8,10 +8,16 @@
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
   	parameterType="string">
     SELECT
-    	ABBREVIATION
-    FROM ROOT_SOURCES
+    	rs.ABBREVIATION as abbreviation, 
+    	rs.SHORT_NAME AS shortName,
+    	ci.VALUE AS license
+    FROM ROOT_SOURCES rs
+    INNER JOIN
+    	CONTACT_INFORMATION ci
+    ON
+    	rs.LICENSE_CONTACT = ci.ID
     WHERE
-    	ABBREVIATION = #{sab}
+    	rs.ABBREVIATION = #{sab}
   </select>
   
   <select id="streamEntities" 
