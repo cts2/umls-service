@@ -21,26 +21,38 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.entity;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.mapentry;
+
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import edu.mayo.cts2.framework.model.mapversion.MapEntry;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.CuiToCodeDTO;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.MapEntryMapper;
+
 /**
+ * The Class CodeSystemRepository.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
 @Component
-public class EntityUriHandler {
+public class MapEntryRepository {
 	
-	private final static String NLM_NS = "http://id.nlm.gov/sab/";
+	@Resource
+	private MapEntryMapper mapEntryMapper;
+	
+	@Resource
+	private MapEntryFactory mapEntryFactory;
 
-	/**
-	 * Gets the uri.
-	 *
-	 * @param sab the sab
-	 * @return the uri
-	 */
-	public String getUri(String sab, String name){
-		return NLM_NS + sab + "/" + name;
+	public MapEntry 
+		getMapEntryFromSourceCui(String cui, String sab){
+		List<CuiToCodeDTO> dtos = 
+			this.mapEntryMapper.geCuiToCodeDTOsFromSourceCui(cui, sab);
+		
+		return this.mapEntryFactory.createMapEntry(dtos);
 	}
+
 }
