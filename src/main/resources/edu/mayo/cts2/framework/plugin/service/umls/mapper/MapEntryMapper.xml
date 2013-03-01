@@ -6,7 +6,7 @@
   
   <select id="geCuiToCodeDTOsFromSourceCui" 
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.CuiToCodeDTO">
-		select 
+		select distinct
 			concepts.UI as conceptUI, 
         	codes.UI as codeUI,
 			atoms.ROOT_SOURCE as rootSource,
