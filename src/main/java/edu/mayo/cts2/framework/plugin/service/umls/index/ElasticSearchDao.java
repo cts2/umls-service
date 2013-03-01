@@ -38,7 +38,6 @@ public class ElasticSearchDao {
 	}
 	
 	public boolean doesIndexExist(){
-		this.refresh();
 		return this.client.prepareCount(INDEX_NAME).execute().actionGet().getCount() > 0;
 	}
 	

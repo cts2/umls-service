@@ -32,7 +32,10 @@ public class EntityIndexer implements InitializingBean {
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
+		Thread.sleep(5 * 1000);
+		this.elasticSearchDao.refresh();
+		Thread.sleep(5 * 1000);
+		
 		if(! this.elasticSearchDao.doesIndexExist()){
 			log.warn("No index detected... building.");
 			

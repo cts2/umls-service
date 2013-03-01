@@ -65,9 +65,6 @@ public class ElasticSearchLocalClientFactory extends
 		log.info("Shutting down ElasticSearch Node.");
 		super.destroy();
 		this.node.close();
-		
-		//wait for things to shut down.
-		Thread.sleep(20 * 1000);
 	}
 
 	public String getIndexDataDirectory() {
