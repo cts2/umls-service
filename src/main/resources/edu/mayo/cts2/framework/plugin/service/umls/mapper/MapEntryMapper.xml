@@ -9,8 +9,7 @@
 		select distinct
 			concepts.UI as conceptUI, 
         	codes.UI as codeUI,
-			atoms.ROOT_SOURCE as rootSource,
-        atoms.ui as atomui
+			atoms.ROOT_SOURCE as rootSource
 		from  Concepts concepts
 		inner join
 			Atoms atoms on concepts.id = atoms.concept_id
