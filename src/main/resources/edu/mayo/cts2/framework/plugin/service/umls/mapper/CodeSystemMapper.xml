@@ -10,12 +10,17 @@
     SELECT
     	rs.ABBREVIATION as abbreviation, 
     	rs.SHORT_NAME AS shortName,
-    	ci.VALUE AS license
+    	cil.VALUE AS licenseContact,
+    	cic.VALUE AS contentContact
     FROM ROOT_SOURCES rs
     INNER JOIN
-    	CONTACT_INFORMATION ci
+    	CONTACT_INFORMATION cil
     ON
-    	rs.LICENSE_CONTACT = ci.ID
+    	rs.LICENSE_CONTACT = cil.ID
+    INNER JOIN
+    	CONTACT_INFORMATION cic
+    ON
+    	rs.CONTENT_CONTACT = cic.ID
     WHERE
     	rs.ABBREVIATION = #{sab}
   </select>

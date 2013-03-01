@@ -38,7 +38,25 @@ public class RootSourceDTO implements Serializable {
 	
 	private String shortName;
 	
-	private String license;
+	private String contentContact;
+	
+	private String licenseContact;
+
+	public String getContentContact() {
+		return contentContact;
+	}
+
+	public void setContentContact(String contentContact) {
+		this.contentContact = contentContact;
+	}
+
+	public String getLicenseContact() {
+		return licenseContact;
+	}
+
+	public void setLicenseContact(String licenseContact) {
+		this.licenseContact = licenseContact;
+	}
 
 	/**
 	 * Gets the abbreviation.
@@ -64,14 +82,6 @@ public class RootSourceDTO implements Serializable {
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
-	}
-
-	public String getLicense() {
-		return license;
-	}
-
-	public void setLicense(String license) {
-		this.license = license;
 	}
 
 }

@@ -28,7 +28,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
-import edu.mayo.cts2.framework.model.util.ModelUtils;
+import edu.mayo.cts2.framework.model.core.RoleReference;
+import edu.mayo.cts2.framework.model.core.SourceAndRoleReference;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
@@ -41,6 +42,10 @@ public class CodeSystemFactory {
 	
 	@Resource
 	private CodeSystemUriHandler codeSystemUriHandler;
+
+	private static final String LICENSE_CONTACT = "LicenseContact";
+
+	private static final String CONTENT_CONTACT = "ContentContact";
 
 	/**
 	 * Creates a new CodeSystem object.
@@ -55,9 +60,18 @@ public class CodeSystemFactory {
 		entry.setCodeSystemName(sab);
 		entry.setAbout(this.codeSystemUriHandler.getUri(sab));
 		entry.setFormalName(rootSourceDTO.getShortName());
-		entry.setRights(ModelUtils.createOpaqueData(rootSourceDTO.getLicense()));
+		entry.addSourceAndRole(this.createSourceAndRole(CONTENT_CONTACT, rootSourceDTO.getContentContact()));
+		entry.addSourceAndRole(this.createSourceAndRole(LICENSE_CONTACT, rootSourceDTO.getLicenseContact()));
 		
 		return entry;
+	}
+	
+	private SourceAndRoleReference createSourceAndRole(String role, String value){
+		SourceAndRoleReference ref = new SourceAndRoleReference();
+		ref.setRole(new RoleReference(value));
+		ref.setContent(value);
+		
+		return ref;
 	}
 
 }
