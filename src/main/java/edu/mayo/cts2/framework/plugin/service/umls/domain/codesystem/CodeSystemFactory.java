@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.model.core.RoleReference;
 import edu.mayo.cts2.framework.model.core.SourceAndRoleReference;
+import edu.mayo.cts2.framework.model.core.SourceReference;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
 /**
@@ -68,8 +69,8 @@ public class CodeSystemFactory {
 	
 	private SourceAndRoleReference createSourceAndRole(String role, String value){
 		SourceAndRoleReference ref = new SourceAndRoleReference();
-		ref.setRole(new RoleReference(value));
-		ref.setContent(value);
+		ref.setSource(new SourceReference(value));
+		ref.setRole(new RoleReference(role));
 		
 		return ref;
 	}

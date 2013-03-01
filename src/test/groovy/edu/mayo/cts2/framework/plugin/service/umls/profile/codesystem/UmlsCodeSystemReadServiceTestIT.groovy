@@ -30,6 +30,7 @@ class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
 		assertNotNull service
 	}
 
+	@Test
 	void TestValidXml() {
 		def cs = doRead()
 
