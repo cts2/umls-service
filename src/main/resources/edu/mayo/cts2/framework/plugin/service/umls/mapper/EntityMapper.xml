@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.mayo.cts2.framework.plugin.service.umls.mapper.EntityMapper">
+
+  <select id="getConceptDTO" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.ConceptDTO" 
+  	parameterType="string">
+    	select 
+			concepts.ui, string_info.name
+		from  Concepts concepts
+		inner join
+			Atom_Clusters atom_clusters on concepts.id = atom_clusters.id
+	    inner join
+	      Atoms atoms on atom_clusters.default_pref_atom_id = atoms.id
+	    inner join
+	      String_Info string_info on atoms.string_info_id = string_info.id
+	    where
+	    	concepts.ui = #{cui}
+  </select>
+  
+  <select id="streamEntities" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO">
+		select 
+			c.UI as UI, 
+			c.ROOT_SOURCE as ROOTSOURCE, 
+			s.NAME as STRING 
+		from Codes c
+		inner join
+			Atoms a on c.id = a.code_id
+		inner join
+			String_Info s on a.string_info_id = s.id
+		order by c.ui
+  </select>
+
+</mapper>
