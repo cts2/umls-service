@@ -26,5 +26,10 @@ class MetadataMapperTestIT extends AbstractTestITBase {
 		def date = new Date().parse('yyyy/MM/dd/hh/mm', '2012/01/31/00/10')
 		assertEquals date.time, mapper.getReleaseInfoDTO().releaseDate.time
 	}
+	
+	@Test
+	void testGetDescription(){
+		assertEquals "Base Release for Fall 2012", mapper.getReleaseInfoDTO().description
+	}
 
 }

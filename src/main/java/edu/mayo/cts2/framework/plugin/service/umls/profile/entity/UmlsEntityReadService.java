@@ -27,10 +27,7 @@ import edu.mayo.cts2.framework.service.profile.entitydescription.name.EntityDesc
 public class UmlsEntityReadService 
 	extends AbstractUmlsBaseService 
 	implements EntityDescriptionReadService {
-	
-	public static final String MTH_NAMESPACE = "MTH";
-	public static final String MTH_VERSION = "2012AB";
-	
+
 	@Resource
 	private EntityRepository entityRepository;
 
