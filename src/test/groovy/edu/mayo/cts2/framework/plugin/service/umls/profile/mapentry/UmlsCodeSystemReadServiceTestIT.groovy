@@ -1,4 +1,4 @@
-package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem
+package edu.mayo.cts2.framework.plugin.service.umls.profile.mapentry
 
 import static org.junit.Assert.*
 
@@ -10,17 +10,20 @@ import org.junit.Test
 import edu.mayo.cts2.framework.core.xml.Cts2Marshaller
 import edu.mayo.cts2.framework.model.util.ModelUtils
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase
+import edu.mayo.cts2.framework.service.profile.mapentry.name.MapEntryReadId
 
-class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
+class UmlsMapEntryReadServiceTestIT extends AbstractTestITBase {
 
 	@Resource
-	UmlsCodeSystemReadService service
+	UmlsMapEntryReadService service
 
 	@Resource
 	Cts2Marshaller marshaller
 	
 	def doRead() {
-		def cs = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
+		
+		def readId = new MapEntryReadId("C0151907", "MTH", ModelUtils.nameOrUriFromName("MTH-SNOMEDCT-2012AB"))
+		def cs = service.read(readId, null)
 	
 		cs
 	}
@@ -31,21 +34,6 @@ class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
 	}
 
 	@Test
-	void testRead()
-	{
-		def csn = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
-		assertNotNull csn
-		println "found " + csn.getCodeSystemName()
-	}
-
-	@Test
-	void testExists()
-	{
-		assertTrue service.exists(ModelUtils.nameOrUriFromName("LNC"), null)
-		assertFalse service.exists(ModelUtils.nameOrUriFromName("CODESYSTEMNOTTHERE"), null)
-	}
-
-	
 	void TestValidXml() {
 		def cs = doRead()
 

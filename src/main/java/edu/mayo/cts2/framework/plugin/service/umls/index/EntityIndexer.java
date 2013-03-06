@@ -32,7 +32,10 @@ public class EntityIndexer implements InitializingBean {
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
+		Thread.sleep(5 * 1000);
+		this.elasticSearchDao.refresh();
+		Thread.sleep(5 * 1000);
+		
 		if(! this.elasticSearchDao.doesIndexExist()){
 			log.warn("No index detected... building.");
 			
@@ -57,7 +60,7 @@ public class EntityIndexer implements InitializingBean {
 		
 		final FlushMarker flushMarker = new FlushMarker();
 
-		this.sqlSession.select("edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper.streamEntities", new ResultHandler(){
+		this.sqlSession.select("edu.mayo.cts2.framework.plugin.service.umls.mapper.EntityMapper.streamEntities", new ResultHandler(){
 
 			@Override
 			public void handleResult(ResultContext context) {

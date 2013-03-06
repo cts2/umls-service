@@ -27,7 +27,7 @@ public class ElasticSearchLocalClientFactory extends
 	
 	private String indexDataDirectory;
 	
-	private static Node node;
+	private Node node;
 
 	@Override
 	protected Client buildClient() throws Exception {
@@ -37,15 +37,13 @@ public class ElasticSearchLocalClientFactory extends
 		settings.put("path.data", this.getDataDirectory());
 		settings.put("http.enabled", false);
 
-		if(node == null){
-			log.info("Starting ElasticSearch Node.");
-			node = nodeBuilder().
-					settings(settings).
-					local(true).
-					data(true).node();
-		}
+		log.info("Starting ElasticSearch Node.");
+		this.node = nodeBuilder().
+			settings(settings).
+			local(true).
+			data(true).node();	
 
-		Client client = node.client();
+		Client client = this.node.client();
 
 		return client;
 	}
@@ -62,14 +60,12 @@ public class ElasticSearchLocalClientFactory extends
 		}
 	}
 	
-	/* Not sure if this is needed...
 	@Override
 	public void destroy() throws Exception {
 		log.info("Shutting down ElasticSearch Node.");
 		super.destroy();
-		this.node.stop();
+		this.node.close();
 	}
-	*/
 
 	public String getIndexDataDirectory() {
 		return indexDataDirectory;

@@ -35,6 +35,28 @@ public class RootSourceDTO implements Serializable {
 	private static final long serialVersionUID = 3750057062167264839L;
 
 	private String abbreviation;
+	
+	private String shortName;
+	
+	private String contentContact;
+	
+	private String licenseContact;
+
+	public String getContentContact() {
+		return contentContact;
+	}
+
+	public void setContentContact(String contentContact) {
+		this.contentContact = contentContact;
+	}
+
+	public String getLicenseContact() {
+		return licenseContact;
+	}
+
+	public void setLicenseContact(String licenseContact) {
+		this.licenseContact = licenseContact;
+	}
 
 	/**
 	 * Gets the abbreviation.
@@ -52,6 +74,14 @@ public class RootSourceDTO implements Serializable {
 	 */
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 }

@@ -21,26 +21,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.entity;
+package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
-import org.springframework.stereotype.Component;
 
 /**
+ * The Interface CodeSystemMapper.
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-@Component
-public class EntityUriHandler {
-	
-	private final static String NLM_NS = "http://id.nlm.gov/sab/";
+public interface MetadataMapper {
 
 	/**
-	 * Gets the uri.
+	 * Gets the root source dto.
 	 *
 	 * @param sab the sab
-	 * @return the uri
+	 * @return the root source dto
 	 */
-	public String getUri(String sab, String name){
-		return NLM_NS + sab + "/" + name;
-	}
+	public ReleaseInfoDTO getReleaseInfoDTO();
 }

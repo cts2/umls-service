@@ -36,9 +36,12 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
+import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.ConceptDTO;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.EntityMapper;
 
 /**
  *
@@ -52,6 +55,9 @@ public class EntityRepository {
 	
 	@Resource
 	private EntityFactory entityFactory;
+	
+	@Resource
+	private EntityMapper entityMapper;
 	
 	private ObjectMapper jsonMapper = new ObjectMapper();
 	
@@ -74,6 +80,12 @@ public class EntityRepository {
 		}
 		
 		return new DirectoryResult<EntityDirectoryEntry>(list, true);
+	}
+	
+	public EntityDescription getEntityByCui(String cui){
+		ConceptDTO conceptDto = this.entityMapper.getConceptDTO(cui);
+		
+		return this.entityFactory.createEntity(conceptDto);
 	}
 	
 	private double floatToDouble(float f){
