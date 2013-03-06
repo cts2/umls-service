@@ -23,56 +23,22 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
-import edu.mayo.cts2.framework.model.core.OpaqueData;
-import edu.mayo.cts2.framework.model.core.SourceReference;
-import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemRepository;
+import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemReadService;
 
 @Component
-public class UmlsCodeSystemReadService implements CodeSystemReadService {
+public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implements CodeSystemReadService {
 
 	@Resource
 	private CodeSystemRepository codeSystemRepository;
-	
-	@Override
-	public String getServiceName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OpaqueData getServiceDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getServiceVersion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SourceReference getServiceProvider() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DocumentedNamespaceReference> getKnownNamespaceList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public CodeSystemCatalogEntry read(
@@ -87,8 +53,8 @@ public class UmlsCodeSystemReadService implements CodeSystemReadService {
 
 	@Override
 	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return false;
+
+		return (this.read(identifier, readContext) != null);
 	}
 
 }

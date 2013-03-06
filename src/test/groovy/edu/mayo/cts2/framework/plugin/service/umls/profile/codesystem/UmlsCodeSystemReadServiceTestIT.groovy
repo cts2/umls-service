@@ -30,6 +30,22 @@ class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
 		assertNotNull service
 	}
 
+	@Test
+	void testRead()
+	{
+		def csn = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
+		assertNotNull csn
+		println "found " + csn.getCodeSystemName()
+	}
+
+	@Test
+	void testExists()
+	{
+		assertTrue service.exists(ModelUtils.nameOrUriFromName("LNC"), null)
+		assertFalse service.exists(ModelUtils.nameOrUriFromName("CODESYSTEMNOTTHERE"), null)
+	}
+
+	
 	void TestValidXml() {
 		def cs = doRead()
 
