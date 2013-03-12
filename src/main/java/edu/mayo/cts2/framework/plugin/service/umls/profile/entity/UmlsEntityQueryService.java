@@ -29,6 +29,7 @@ import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURIList;
 import edu.mayo.cts2.framework.model.service.core.Query;
+import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityQueryBuilder;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
@@ -36,7 +37,9 @@ import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescripti
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQueryService;
 
 @Component
-public class UmlsEntityQueryService implements EntityDescriptionQueryService {
+public class UmlsEntityQueryService 
+			extends AbstractUmlsBaseService 
+			implements EntityDescriptionQueryService {
 
 	@Resource
 	private EntityQueryBuilderFactory entityQueryBuilderFactory;
@@ -99,36 +102,6 @@ public class UmlsEntityQueryService implements EntityDescriptionQueryService {
 	@Override
 	public Set<PredicateReference> getKnownProperties() {
 		return new HashSet<PredicateReference>();
-	}
-
-	@Override
-	public String getServiceName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OpaqueData getServiceDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getServiceVersion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SourceReference getServiceProvider() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DocumentedNamespaceReference> getKnownNamespaceList() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

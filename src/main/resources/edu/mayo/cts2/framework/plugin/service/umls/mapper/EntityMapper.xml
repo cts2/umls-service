@@ -19,6 +19,19 @@
 	    where
 	    	concepts.ui = #{cui}
   </select>
+
+  <select id="getCodeDTO" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO" parameterType="string">
+    select c.ui, c.id, rs.abbreviation, si.name
+		from  Concepts c, Atom_Clusters ac, Atoms a, root_sources rs, string_info si
+     where
+     	c.id = a.concept_id and
+     	a.id = ac.default_pref_atom_id and
+      	a.string_info_id = si.id and
+     	c.id = ac.id  and
+      	c.id = #{id}  and
+      	rs.abbreviation = #{sab} 
+  </select>
   
   <select id="streamEntities" 
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO">

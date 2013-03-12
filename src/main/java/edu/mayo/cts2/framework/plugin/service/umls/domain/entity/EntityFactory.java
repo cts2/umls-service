@@ -12,11 +12,13 @@ import edu.mayo.cts2.framework.model.core.URIAndEntityName;
 import edu.mayo.cts2.framework.model.entity.Designation;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.entity.NamedEntityDescription;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemUriHandler;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.ConceptDTO;
 
 @Component
@@ -62,6 +64,31 @@ public class EntityFactory {
 		return entity;
 	}
 	
+	public EntityDescription createEntity(CodeDTO codeDto){
+		NamedEntityDescription namedEntity = new NamedEntityDescription();
+		
+		String sab = codeDto.getSab();
+		String name = codeDto.getUi();
+		namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
+		
+		namedEntity.setAbout(entityUriHandler.getUri(sab, name));
+		
+		Designation designation = new Designation();
+		designation.setValue(ModelUtils.toTsAnyType(codeDto.getName()));
+		
+		namedEntity.addDesignation(designation);
+		namedEntity.setDescribingCodeSystemVersion(
+			this.buildCodeSystemVersionReference(sab));
+		
+		namedEntity.addEntityType(CONCEPT_TYPE);
+
+		EntityDescription entity = new EntityDescription();
+
+		entity.setNamedEntity(namedEntity);
+		
+		return entity;
+	}
+	
 	public EntityDirectoryEntry createEntityDirectoryEntry(IndexedEntity indexedEntity){
 		EntityDirectoryEntry entry = new EntityDirectoryEntry();
 		
@@ -82,6 +109,32 @@ public class EntityFactory {
 		
 		entry.addKnownEntityDescription(descriptionInCodeSystem);
 		
+		entry.setMatchStrength(indexedEntity.getScore());
+		
+		return entry;
+	}
+	
+	public EntityListEntry createEntityListEntry(IndexedEntity indexedEntity){
+		EntityListEntry entry = new EntityListEntry();
+		
+		String sab = indexedEntity.getSab();
+		String name = indexedEntity.getName();
+		
+		EntityDescription ed = new EntityDescription();
+
+		//TODO: Need to better determine ranking
+		Description description = indexedEntity.getDescriptions().get(0);
+		
+		DescriptionInCodeSystem descriptionInCodeSystem = new DescriptionInCodeSystem();
+		descriptionInCodeSystem.setDesignation(description.getValue());
+		descriptionInCodeSystem.
+			setDescribingCodeSystemVersion(
+				this.buildCodeSystemVersionReference(sab));
+
+		
+		
+		entry.setHref(entityUriHandler.getUri(sab, name));
+		entry.setEntry(ed);
 		entry.setMatchStrength(indexedEntity.getScore());
 		
 		return entry;

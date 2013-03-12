@@ -38,8 +38,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.ConceptDTO;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.EntityMapper;
 
@@ -82,10 +84,37 @@ public class EntityRepository {
 		return new DirectoryResult<EntityDirectoryEntry>(list, true);
 	}
 	
+	public DirectoryResult<EntityListEntry> getEntityListEntriesByKeyword(QueryBuilder queryBuilder, int start, int end){
+		SearchHits hits = elasticSearchDao.search(queryBuilder, start, end);
+		
+		List<EntityListEntry> list = new ArrayList<EntityListEntry>();
+				
+		for(SearchHit hit : hits.getHits()){
+			try {
+				IndexedEntity entity = 
+					this.jsonMapper.readValue(hit.getSourceAsString(), IndexedEntity.class);
+				
+				entity.setScore(this.floatToDouble(hit.getScore()));
+						
+				list.add(entityFactory.createEntityListEntry(entity));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			} 
+		}
+		
+		return new DirectoryResult<EntityListEntry>(list, true);
+	}
+	
 	public EntityDescription getEntityByCui(String cui){
 		ConceptDTO conceptDto = this.entityMapper.getConceptDTO(cui);
 		
 		return this.entityFactory.createEntity(conceptDto);
+	}
+	
+	public EntityDescription getEntityById(String id, String sab){
+		CodeDTO codeDto = this.entityMapper.getCodeDTO(id, sab);
+		
+		return this.entityFactory.createEntity(codeDto);
 	}
 	
 	private double floatToDouble(float f){

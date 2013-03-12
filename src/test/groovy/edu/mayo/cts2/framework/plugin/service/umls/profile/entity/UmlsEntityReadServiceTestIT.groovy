@@ -28,15 +28,33 @@ class UmlsEntityReadServiceTestIT extends AbstractTestITBase {
 
 		e
 	}
-	
+
+	def doReadID() {
+		def e = service.read(
+			new EntityDescriptionReadId
+				(ModelUtils.createScopedEntityName("IC0030193", "SNOMEDCT"),
+				ModelUtils.nameOrUriFromName("MTH-2012AB")), null)
+
+		e
+	}
+
 	@Test
 	void testSetUp(){
 		assertNotNull service
 	}
 
 	@Test
-	void TestValidXml() {
+	void TestValidXmlCui() {
 		def e = doRead()
+
+		assertNotNull e
+
+		marshaller.marshal(e, new StreamResult(new StringWriter()))
+	}
+	
+	@Test
+	void TestValidXmlId() {
+		def e = doReadID()
 
 		assertNotNull e
 

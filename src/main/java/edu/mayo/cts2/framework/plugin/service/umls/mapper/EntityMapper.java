@@ -23,6 +23,8 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 
 /**
  * The Interface CodeSystemMapper.
@@ -38,4 +40,6 @@ public interface EntityMapper {
 	 * @return the root source dto
 	 */
 	public ConceptDTO getConceptDTO(String cui);
+	
+	public CodeDTO getCodeDTO(@Param("id") String id, @Param("sab") String sab);
 }

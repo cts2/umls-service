@@ -16,10 +16,20 @@ class EntityRepositoryTestIT extends AbstractTestITBase {
 	
 	@Test
 	def void testQueryScore(){
-		def qb = QueryBuilders.fuzzyQuery("entity.descriptions.value", "tust")
+		def qb = QueryBuilders.fuzzyQuery("entity.descriptions.value", "blud")
 		def result = repo.getEntityDirectoryEntriesByKeyword(qb, 0, 100);
 		
 		result.entries.each { 
+			assertTrue (it.matchStrength != 1)
+		}
+	}
+	
+	@Test
+	def void testEntityEntryList(){
+		def qb = QueryBuilders.fuzzyQuery("entity.descriptions.value", "blud")
+		def result = repo.getEntityListEntriesByKeyword(qb, 0, 100);
+		
+		result.entries.each {
 			assertTrue (it.matchStrength != 1)
 		}
 	}
