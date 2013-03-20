@@ -105,24 +105,21 @@ public class UmlsEntityQueryService
 	}
 
 	@Override
-	public boolean isEntityInSet(EntityNameOrURI entity, Query query,
-			Set<ResolvedFilter> filterComponent,
+	public boolean isEntityInSet(EntityNameOrURI entity, 
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public EntityReferenceList resolveAsEntityReferenceList(Query query,
-			Set<ResolvedFilter> filterComponent,
+	public EntityReferenceList resolveAsEntityReferenceList(
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public EntityNameOrURIList intersectEntityList(
-			Set<EntityNameOrURI> entities, Query query,
-			Set<ResolvedFilter> filterComponent,
+			Set<EntityNameOrURI> entities, 
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
 		throw new UnsupportedOperationException();
 	}
