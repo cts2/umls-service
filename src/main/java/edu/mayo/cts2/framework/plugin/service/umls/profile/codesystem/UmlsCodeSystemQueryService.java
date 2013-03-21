@@ -27,6 +27,7 @@ public class UmlsCodeSystemQueryService extends AbstractUmlsBaseService implemen
 //	private EntityQueryStateUpdater stateUpdater = new EntityQueryStateUpdater();
 	private CodeSystemQueryStateUpdater stateUpdater = new CodeSystemQueryStateUpdater();
 	
+	
 	@Override
 	public Set<MatchAlgorithmReference> getSupportedMatchAlgorithms() {
 		return new HashSet<MatchAlgorithmReference>(
