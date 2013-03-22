@@ -23,6 +23,8 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
+import java.util.List;
+
 
 /**
  * The Interface CodeSystemMapper.
