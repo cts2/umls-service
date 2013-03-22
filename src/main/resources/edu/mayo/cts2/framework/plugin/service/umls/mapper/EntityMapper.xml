@@ -20,17 +20,19 @@
 	    	concepts.ui = #{cui}
   </select>
 
-  <select id="getCodeDTO" 
+  <select id="getCodeDTOs" 
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO" parameterType="string">
-    select c.ui, c.id, rs.abbreviation, si.name
-		from  Concepts c, Atom_Clusters ac, Atoms a, root_sources rs, string_info si
+    select c.ui, c.id, rs.abbreviation, si.name, lx.language,
+    (case when (a.id = ac.default_pref_atom_id) then 'yes' else 'no' end) as isPreferred
+		from  Concepts c, Atom_Clusters ac, Atoms a, root_sources rs, string_info si, lexical_info lx
      where
      	c.id = a.concept_id and
-     	a.id = ac.default_pref_atom_id and
       	a.string_info_id = si.id and
      	c.id = ac.id  and
+     	si.lexical_info_id = lx.id and
       	c.id = #{id}  and
-      	rs.abbreviation = #{sab} 
+      	rs.abbreviation = #{sab}
+      	order by isPreferred desc
   </select>
   
   <select id="streamEntities" 

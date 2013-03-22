@@ -23,6 +23,8 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 
@@ -41,5 +43,5 @@ public interface EntityMapper {
 	 */
 	public ConceptDTO getConceptDTO(String cui);
 	
-	public CodeDTO getCodeDTO(@Param("id") String id, @Param("sab") String sab);
+	public List<CodeDTO> getCodeDTOs(@Param("id") String id, @Param("sab") String sab);
 }
