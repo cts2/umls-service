@@ -38,4 +38,14 @@ public interface CodeSystemMapper {
 	 * @return the root source dto
 	 */
 	public RootSourceDTO getRootSourceDTO(String sab);
+	
+	public List<RootSourceDTO> searchRootSourceDTO(SearchObject searchObject);
+	
+	public class SearchObject {
+		
+		private String shortName;
+		private String abbreviation;
+		
+	}
+	
 }

@@ -24,5 +24,33 @@
     WHERE
     	rs.ABBREVIATION = #{sab}
   </select>
+  
+    <select id="searchRootSourceDTO" 
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
+  	parameterType="string">
+    SELECT
+    	rs.ABBREVIATION as abbreviation, 
+    	rs.SHORT_NAME AS shortName,
+    	cil.VALUE AS licenseContact,
+    	cic.VALUE AS contentContact
+    FROM ROOT_SOURCES rs
+    INNER JOIN
+    	CONTACT_INFORMATION cil
+    ON
+    	rs.LICENSE_CONTACT = cil.ID
+    INNER JOIN
+    	CONTACT_INFORMATION cic
+    ON
+    	rs.CONTENT_CONTACT = cic.ID
+    WHERE
+    	<if test="searchObject.abbreviation != null">
+    	rs.ABBREVIATION LIKE #{searchObject.abbreviation}
+    	</if>
+    	AND
+    	<if test="searchObject.shortName != null">
+    	rs.SHORT_NAME LIKE #{searchObject.shortName}
+    	</if>
+    	
+  </select>
 
 </mapper>
