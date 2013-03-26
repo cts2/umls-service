@@ -10,6 +10,26 @@ public class CodeDTO {
 	
 	private String name;
 	
+	private String language;
+	
+	private boolean isPreferred;
+	
+	public boolean isPreferred() {
+		return isPreferred;
+	}
+
+	public void setPreferred(boolean isPreferred) {
+		this.isPreferred = isPreferred;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 	public String getSab() {
 		return abbreviation;
 	}

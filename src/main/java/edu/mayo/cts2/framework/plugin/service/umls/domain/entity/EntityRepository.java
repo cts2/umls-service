@@ -112,9 +112,9 @@ public class EntityRepository {
 	}
 	
 	public EntityDescription getEntityById(String id, String sab){
-		CodeDTO codeDto = this.entityMapper.getCodeDTO(id, sab);
+		List<CodeDTO> codeDtos = this.entityMapper.getCodeDTOs(id, sab);
 		
-		return this.entityFactory.createEntity(codeDto);
+		return this.entityFactory.createEntity(codeDtos);
 	}
 	
 	private double floatToDouble(float f){

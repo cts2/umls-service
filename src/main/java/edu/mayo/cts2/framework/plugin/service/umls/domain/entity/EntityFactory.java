@@ -1,5 +1,7 @@
 package edu.mayo.cts2.framework.plugin.service.umls.domain.entity;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Component;
 import edu.mayo.cts2.framework.model.core.CodeSystemReference;
 import edu.mayo.cts2.framework.model.core.CodeSystemVersionReference;
 import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
+import edu.mayo.cts2.framework.model.core.LanguageReference;
 import edu.mayo.cts2.framework.model.core.NameAndMeaningReference;
 import edu.mayo.cts2.framework.model.core.URIAndEntityName;
 import edu.mayo.cts2.framework.model.entity.Designation;
@@ -14,6 +17,8 @@ import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.entity.NamedEntityDescription;
+import edu.mayo.cts2.framework.model.entity.types.DesignationRole;
+import edu.mayo.cts2.framework.model.entity.types.descriptors.DesignationRoleDescriptor;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemUriHandler;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
@@ -64,26 +69,46 @@ public class EntityFactory {
 		return entity;
 	}
 	
-	public EntityDescription createEntity(CodeDTO codeDto){
+	public EntityDescription createEntity(List<CodeDTO> codeDtos){
+		
+		if (codeDtos == null)
+			return null;
+		
+		if (codeDtos.isEmpty())
+			return null;
+		
 		NamedEntityDescription namedEntity = new NamedEntityDescription();
 		
-		String sab = codeDto.getSab();
-		String name = codeDto.getUi();
-		namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
+		String sab = null;
+		String name = null;
 		
-		namedEntity.setAbout(entityUriHandler.getUri(sab, name));
+		for (CodeDTO codeDto : codeDtos)
+		{
+			if ((sab == null)||(name == null))
+			{
+					sab = codeDto.getSab();
+					name = codeDto.getUi();
+					namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
 		
-		Designation designation = new Designation();
-		designation.setValue(ModelUtils.toTsAnyType(codeDto.getName()));
+					namedEntity.setAbout(entityUriHandler.getUri(sab, name));
+					namedEntity.addEntityType(CONCEPT_TYPE);
+					namedEntity.setDescribingCodeSystemVersion(
+							this.buildCodeSystemVersionReference(sab));
+
+			}
 		
-		namedEntity.addDesignation(designation);
-		namedEntity.setDescribingCodeSystemVersion(
-			this.buildCodeSystemVersionReference(sab));
-		
-		namedEntity.addEntityType(CONCEPT_TYPE);
+			Designation designation = new Designation();
+			designation.setValue(ModelUtils.toTsAnyType(codeDto.getName()));
+			LanguageReference lref = new LanguageReference(codeDto.getLanguage());
+			designation.setLanguage(lref);
+			
+			if (codeDto.isPreferred())
+				designation.setDesignationRole(DesignationRole.PREFERRED);
+			
+			namedEntity.addDesignation(designation);
+		}		
 
 		EntityDescription entity = new EntityDescription();
-
 		entity.setNamedEntity(namedEntity);
 		
 		return entity;
