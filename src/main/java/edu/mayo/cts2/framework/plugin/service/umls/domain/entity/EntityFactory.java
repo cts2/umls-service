@@ -102,7 +102,7 @@ public class EntityFactory {
 			LanguageReference lref = new LanguageReference(codeDto.getLanguage());
 			designation.setLanguage(lref);
 			
-			if (codeDto.isPreferred())
+			if ("yes".equalsIgnoreCase(codeDto.isPreferred()))
 				designation.setDesignationRole(DesignationRole.PREFERRED);
 			
 			namedEntity.addDesignation(designation);
