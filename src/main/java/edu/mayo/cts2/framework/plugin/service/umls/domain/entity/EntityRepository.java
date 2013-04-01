@@ -117,6 +117,18 @@ public class EntityRepository {
 		return this.entityFactory.createEntity(codeDtos);
 	}
 	
+	public DirectoryResult<EntityListEntry> getEntityDescriptionsList(String id, String sab)
+	{
+		List<EntityListEntry> list = new ArrayList<EntityListEntry>();
+
+		EntityDescription ed = this.getEntityById(id, sab);
+		
+		if (ed != null)
+			list.add(this.entityFactory.createEntityListEntry(ed));
+		
+		return new DirectoryResult<EntityListEntry>(list, true);
+	}
+	
 	private double floatToDouble(float f){
 		return (double)f;
 	}

@@ -165,6 +165,20 @@ public class EntityFactory {
 		return entry;
 	}
 	
+	public EntityListEntry createEntityListEntry(EntityDescription ed){
+
+		if (ed == null)
+			return null;
+
+		EntityListEntry entry = new EntityListEntry();
+		String name = ed.getNamedEntity().getEntityID().getName();
+		String sab = ed.getNamedEntity().getEntityID().getNamespace();
+		entry.setHref(entityUriHandler.getUri(sab, name));
+		entry.setEntry(ed);
+		
+		return entry;
+	}
+	
 	private CodeSystemVersionReference buildCodeSystemVersionReference(String sab){
 		NameAndMeaningReference versionRef = new NameAndMeaningReference();
 		versionRef.setContent(sab);

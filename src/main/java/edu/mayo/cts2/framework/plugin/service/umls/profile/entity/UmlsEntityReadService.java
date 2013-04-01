@@ -1,12 +1,9 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.command.Page;
@@ -18,20 +15,17 @@ import edu.mayo.cts2.framework.model.core.SortCriteria;
 import edu.mayo.cts2.framework.model.core.VersionTagReference;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
-import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.model.entity.EntityList;
 import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityFactory;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityRepository;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
-import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityQueryBuilder;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionReadService;
 import edu.mayo.cts2.framework.service.profile.entitydescription.name.EntityDescriptionReadId;
 
 @Component
-public class UmlsEntityReadService 
-	extends AbstractUmlsBaseService 
+public class UmlsEntityReadService 	extends AbstractUmlsBaseService 
 	implements EntityDescriptionReadService {
 
 	@Resource
@@ -61,10 +55,9 @@ public class UmlsEntityReadService
 	public DirectoryResult<EntityListEntry> readEntityDescriptions(
 			EntityNameOrURI entityId, SortCriteria sortCriteria,
 			ResolvedReadContext readContext, Page page) {
-		String field = "entity.descriptions.value";
 		String match = entityId.getEntityName().getName();
-		QueryBuilder qb = QueryBuilders.fuzzyQuery(field, match);
-		return this.entityRepository.getEntityListEntriesByKeyword(qb, page.getStart(), page.getEnd());
+		String namespace = entityId.getEntityName().getNamespace();
+		return this.entityRepository.getEntityDescriptionsList(match, namespace);
 	}
 
 	@Override
@@ -98,5 +91,4 @@ public class UmlsEntityReadService
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
