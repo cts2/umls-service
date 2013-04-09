@@ -43,5 +43,7 @@ public interface EntityMapper {
 	 */
 	public ConceptDTO getConceptDTO(String cui);
 	
-	public List<CodeDTO> getCodeDTOs(@Param("id") String id, @Param("sab") String sab);
+	public List<CodeDTO> getCodeDTOById(@Param("id") String id);
+	
+	public List<CodeDTO> getCodeDTOByIdSab(@Param("id") String id, @Param("sab") String sab);
 }

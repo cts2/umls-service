@@ -41,7 +41,7 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		if (EntityFactory.MTH_NAMESPACE.equals(namespace))
 			return this.entityRepository.getEntityByCui(name);
 		
-		return this.entityRepository.getEntityById(name, namespace);
+		return this.entityRepository.getEntityByIdAndNS(name, namespace);
 	}
 
 	@Override
@@ -61,16 +61,25 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 	}
 
 	@Override
+	// Entities across code systems.
 	public EntityReference availableDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return null;
+		String match = entityId.getEntityName().getName();
+		String namespace = entityId.getEntityName().getNamespace();
+		return this.entityRepository.getEntityDescriptionsAsReference(match, namespace);
 	}
 
 	@Override
+	// Entities across code systems - in a different format
+	// for UMLS this will the same as api above as one dataset comes
+	// from one release, for example 2012AB.
 	public EntityList readEntityDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
+		/*
+			String match = entityId.getEntityName().getName();
+			String namespace = entityId.getEntityName().getNamespace();
+			return this.entityRepository.getEntityDescriotionsAsEntityList(match, namespace);
+			*/
 		return null;
 	}
 

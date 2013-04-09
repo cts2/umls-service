@@ -29,15 +29,24 @@ class UmlsEntityReadServiceTestIT extends AbstractTestITBase {
 		e
 	}
 
+//	def doReadIDSAB() {
+//		def e = service.readEntityDescriptions(
+//			new EntityDescriptionReadId
+//				(ModelUtils.createScopedEntityName("IC0030193", "SNOMEDCT"),
+//				ModelUtils.nameOrUriFromName("MTH-2012AB")), null)
+//
+//		e
+//	}
+
 	def doReadID() {
-		def e = service.read(
+		def e = service.availableDescriptions(
 			new EntityDescriptionReadId
-				(ModelUtils.createScopedEntityName("IC0030193", "SNOMEDCT"),
+				(ModelUtils.createScopedEntityName("IC0030193", null),
 				ModelUtils.nameOrUriFromName("MTH-2012AB")), null)
 
 		e
 	}
-
+	
 	@Test
 	void testSetUp(){
 		assertNotNull service
@@ -51,7 +60,7 @@ class UmlsEntityReadServiceTestIT extends AbstractTestITBase {
 
 		marshaller.marshal(e, new StreamResult(new StringWriter()))
 	}
-	
+
 	@Test
 	void TestValidXmlId() {
 		def e = doReadID()
@@ -60,4 +69,13 @@ class UmlsEntityReadServiceTestIT extends AbstractTestITBase {
 
 		marshaller.marshal(e, new StreamResult(new StringWriter()))
 	}
+	
+//	@Test
+//	void TestValidXmlIdSAB() {
+//		def e = doReadIDSAB()
+//
+//		assertNotNull e
+//
+//		marshaller.marshal(e, new StreamResult(new StringWriter()))
+//	}
 }

@@ -35,9 +35,11 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.mayo.cts2.framework.model.core.EntityReference;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.entity.EntityList;
 import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
@@ -111,23 +113,55 @@ public class EntityRepository {
 		return this.entityFactory.createEntity(conceptDto);
 	}
 	
-	public EntityDescription getEntityById(String id, String sab){
-		List<CodeDTO> codeDtos = this.entityMapper.getCodeDTOs(id, sab);
+	public EntityDescription getEntityByIdAndNS(String id, String sab){
+		List<CodeDTO> codeDtos = this.entityMapper.getCodeDTOByIdSab(id, sab);
 		
 		return this.entityFactory.createEntity(codeDtos);
 	}
-	
+
+	public EntityDescription getEntityById(String id){
+		List<CodeDTO> codeDtos = this.entityMapper.getCodeDTOById(id);
+		
+		return this.entityFactory.createEntity(codeDtos);
+	}
+
 	public DirectoryResult<EntityListEntry> getEntityDescriptionsList(String id, String sab)
 	{
 		List<EntityListEntry> list = new ArrayList<EntityListEntry>();
 
-		EntityDescription ed = this.getEntityById(id, sab);
+		EntityDescription ed = this.getEntityByIdAndNS(id, sab);
 		
 		if (ed != null)
 			list.add(this.entityFactory.createEntityListEntry(ed));
 		
 		return new DirectoryResult<EntityListEntry>(list, true);
 	}
+	
+	public EntityReference getEntityDescriptionsAsReference(String id, String sab)
+	{
+		List<CodeDTO> codeDtos = null;
+		
+		if (sab == null)
+			codeDtos = this.entityMapper.getCodeDTOById(id);
+		else
+			codeDtos = this.entityMapper.getCodeDTOByIdSab(id, sab);
+		
+		return this.entityFactory.createEntityReference(codeDtos);
+	}
+	
+	/*
+	public EntityList getEntityDescriotionsAsEntityList(String id, String sab)
+	{
+		List<CodeDTO> codeDtos = null;
+		
+		if (sab == null)
+			codeDtos = this.entityMapper.getCodeDTOById(id);
+		else
+			codeDtos = this.entityMapper.getCodeDTOByIdSab(id, sab);
+		
+		return this.entityFactory.createEntityList(codeDtos);
+	}
+	*/
 	
 	private double floatToDouble(float f){
 		return (double)f;
