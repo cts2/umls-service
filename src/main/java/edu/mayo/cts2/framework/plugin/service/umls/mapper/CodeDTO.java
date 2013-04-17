@@ -12,13 +12,13 @@ public class CodeDTO {
 	
 	private String language;
 	
-	private boolean isPreferred;
+	private String isPreferred;
 	
-	public boolean isPreferred() {
+	public String isPreferred() {
 		return isPreferred;
 	}
 
-	public void setPreferred(boolean isPreferred) {
+	public void setPreferred(String isPreferred) {
 		this.isPreferred = isPreferred;
 	}
 

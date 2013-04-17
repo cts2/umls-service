@@ -9,16 +9,18 @@ import org.springframework.stereotype.Component;
 import edu.mayo.cts2.framework.model.core.CodeSystemReference;
 import edu.mayo.cts2.framework.model.core.CodeSystemVersionReference;
 import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
+import edu.mayo.cts2.framework.model.core.EntityReference;
 import edu.mayo.cts2.framework.model.core.LanguageReference;
 import edu.mayo.cts2.framework.model.core.NameAndMeaningReference;
+import edu.mayo.cts2.framework.model.core.RESTResource;
 import edu.mayo.cts2.framework.model.core.URIAndEntityName;
 import edu.mayo.cts2.framework.model.entity.Designation;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.entity.EntityList;
 import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.entity.NamedEntityDescription;
 import edu.mayo.cts2.framework.model.entity.types.DesignationRole;
-import edu.mayo.cts2.framework.model.entity.types.descriptors.DesignationRoleDescriptor;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemUriHandler;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
@@ -102,7 +104,7 @@ public class EntityFactory {
 			LanguageReference lref = new LanguageReference(codeDto.getLanguage());
 			designation.setLanguage(lref);
 			
-			if (codeDto.isPreferred())
+			if ("yes".equalsIgnoreCase(codeDto.isPreferred()))
 				designation.setDesignationRole(DesignationRole.PREFERRED);
 			
 			namedEntity.addDesignation(designation);
@@ -113,6 +115,59 @@ public class EntityFactory {
 		
 		return entity;
 	}
+	
+	public EntityReference createEntityReference(List<CodeDTO> codeDtos){
+		
+		if (codeDtos == null)
+			return null;
+		
+		if (codeDtos.isEmpty())
+			return null;
+		
+		String sab = null;
+		String name = null;
+
+		EntityReference entityR = new EntityReference();
+
+		for (CodeDTO codeDto : codeDtos)
+		{
+			if ((sab == null)||(name == null))
+			{
+					sab = codeDto.getSab();
+					name = codeDto.getUi();
+
+					DescriptionInCodeSystem descInCs = new DescriptionInCodeSystem();
+					descInCs.setHref(entityUriHandler.getUri(sab, name));
+					CodeSystemVersionReference csvRef = buildCodeSystemVersionReference(sab);
+					descInCs.setDescribingCodeSystemVersion(csvRef);
+					descInCs.setDesignation(codeDto.getName());
+					entityR.addKnownEntityDescription(descInCs);
+					entityR.setAbout(entityUriHandler.getUri(sab, name));
+			}
+		}		
+
+		return entityR;
+	}
+	
+	/*
+	public EntityList createEntityList(List<CodeDTO> codeDtos){
+		EntityDescription ed = this.createEntity(codeDtos);
+		
+		if (ed == null)
+			return null;
+		
+		EntityListEntry ele = this.createEntityListEntry(ed);
+		if (ele == null)
+			return null;
+		
+		EntityList entityL = new EntityList();
+		entityL.addEntry(ele);
+		RESTResource rr = new RESTResource();
+		rr.setResourceURI(ele.getHref());
+		entityL.setHeading(rr);
+		return entityL;
+	}
+	*/
 	
 	public EntityDirectoryEntry createEntityDirectoryEntry(IndexedEntity indexedEntity){
 		EntityDirectoryEntry entry = new EntityDirectoryEntry();
@@ -161,6 +216,20 @@ public class EntityFactory {
 		entry.setHref(entityUriHandler.getUri(sab, name));
 		entry.setEntry(ed);
 		entry.setMatchStrength(indexedEntity.getScore());
+		
+		return entry;
+	}
+	
+	public EntityListEntry createEntityListEntry(EntityDescription ed){
+
+		if (ed == null)
+			return null;
+
+		EntityListEntry entry = new EntityListEntry();
+		String name = ed.getNamedEntity().getEntityID().getName();
+		String sab = ed.getNamedEntity().getEntityID().getNamespace();
+		entry.setHref(entityUriHandler.getUri(sab, name));
+		entry.setEntry(ed);
 		
 		return entry;
 	}

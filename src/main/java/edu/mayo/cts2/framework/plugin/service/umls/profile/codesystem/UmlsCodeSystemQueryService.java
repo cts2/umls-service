@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.elasticsearch.index.query.QueryBuilder;
 
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
@@ -19,7 +18,6 @@ import edu.mayo.cts2.framework.model.core.SortCriteria;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem.CodeSystemQueryBuilderFactory.CodeSystemQueryBuilder;
-import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.ResourceQuery;
