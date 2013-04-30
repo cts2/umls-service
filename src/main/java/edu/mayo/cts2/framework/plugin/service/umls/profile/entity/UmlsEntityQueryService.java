@@ -30,6 +30,7 @@ import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURIList;
 import edu.mayo.cts2.framework.model.service.core.Query;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
+import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityDescriptionQueryBuilder;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityQueryBuilder;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
@@ -64,12 +65,27 @@ public class UmlsEntityQueryService
 	@Override
 	public DirectoryResult<EntityDescription> getResourceList(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
-		throw new UnsupportedOperationException();
+		EntityDescriptionQueryBuilder descQueryBuilder = 
+				this.entityQueryBuilderFactory.createEntityDescriptionQueryBuilder(
+					this.getSupportedMatchAlgorithms(),
+					this.getSupportedSearchReferences());
+			
+			return descQueryBuilder.
+				addQuery(query).
+				addMaxToReturn(page.getMaxToReturn()).
+				addStart(page.getStart()).
+				resolve();	
 	}
 
 	@Override
 	public int count(EntityDescriptionQuery query) {
-		throw new UnsupportedOperationException();
+		EntityQueryBuilder queryBuilder = 
+				this.entityQueryBuilderFactory.createEntityQueryBuilder(
+					this.getSupportedMatchAlgorithms(),
+					this.getSupportedSearchReferences());
+			
+			return queryBuilder.
+				addQuery(query).count();
 	}
 
 	@Override

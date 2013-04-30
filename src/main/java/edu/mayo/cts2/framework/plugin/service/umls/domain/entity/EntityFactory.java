@@ -220,6 +220,29 @@ public class EntityFactory {
 		return entry;
 	}
 	
+	public EntityDescription createEntityDescription(IndexedEntity indexedEntity){
+		
+		String sab = indexedEntity.getSab();
+		String name = indexedEntity.getName();
+		
+		EntityDescription ed = new EntityDescription();
+
+		NamedEntityDescription namedEntity = new NamedEntityDescription();
+		
+		if ((sab == null)||(name == null))
+		{
+				namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
+	
+				namedEntity.setAbout(entityUriHandler.getUri(sab, name));
+				namedEntity.addEntityType(CONCEPT_TYPE);
+				namedEntity.setDescribingCodeSystemVersion(
+						this.buildCodeSystemVersionReference(sab));
+		}
+
+		ed.setNamedEntity(namedEntity);
+		return ed;
+	}
+	
 	public EntityListEntry createEntityListEntry(EntityDescription ed){
 
 		if (ed == null)

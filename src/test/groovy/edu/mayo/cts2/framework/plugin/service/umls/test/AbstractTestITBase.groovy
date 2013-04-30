@@ -6,7 +6,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
 @RunWith(SpringJUnit4ClassRunner)
 @ContextConfiguration("/test-umls-context.xml")
-public abstract class AbstractTestITBase {
-
-	
+public abstract class AbstractTestITBase 
+{
 }
