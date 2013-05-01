@@ -14,6 +14,8 @@ import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.command.ResolvedFilter;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
+import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
+import edu.mayo.cts2.framework.model.core.EntityReference;
 import edu.mayo.cts2.framework.model.core.EntityReferenceList;
 import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
 import edu.mayo.cts2.framework.model.core.OpaqueData;
@@ -123,14 +125,45 @@ public class UmlsEntityQueryService
 	@Override
 	public boolean isEntityInSet(EntityNameOrURI entity, 
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
+		
+		if ((entity == null)||((entity.getUri() == null)&&(entity.getEntityName() == null)))
+			return false;
+		
+		EntityReferenceList refList = this.resolveAsEntityReferenceList(restrictions, readContext);
+		
+		for (EntityReference er : refList.getEntryAsReference())
+		{
+			for (DescriptionInCodeSystem desc :er.getKnownEntityDescription())
+			{
+				if (entity.getUri() != null)
+					return (entity.getUri().equals(desc.getHref()));
+				
+				if (entity.getEntityName() != null)
+					return (entity.getEntityName().equals(desc.getDesignation()));
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public EntityReferenceList resolveAsEntityReferenceList(
-			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
-		throw new UnsupportedOperationException();
+			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) 
+	{
+		DirectoryResult<EntityDirectoryEntry> dir = this.getResourceSummaries(restrictions, null, new Page());
+		
+		EntityReferenceList elist = new EntityReferenceList();
+		
+		for (EntityDirectoryEntry entry : dir.getEntries())
+		{
+			EntityReference eref = new EntityReference();
+			
+			eref.setAbout(entry.getAbout());
+			eref.setKnownEntityDescription(entry.getKnownEntityDescription());
+			elist.addEntry(eref);
+		}
+		
+		return elist;
 	}
 
 	@Override
