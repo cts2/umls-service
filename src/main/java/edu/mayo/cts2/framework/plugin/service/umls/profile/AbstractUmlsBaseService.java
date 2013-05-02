@@ -1,12 +1,12 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile;
 
-import java.util.List;
-
 import edu.mayo.cts2.framework.model.core.OpaqueData;
 import edu.mayo.cts2.framework.model.core.SourceReference;
 import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.service.profile.BaseService;
+
+import java.util.List;
 
 public class AbstractUmlsBaseService implements BaseService{
 	private static final String MAYO = "Mayo Clinic";

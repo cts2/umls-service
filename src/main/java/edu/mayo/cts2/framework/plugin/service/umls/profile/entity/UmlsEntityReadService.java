@@ -73,7 +73,7 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 	// Entities across code systems - in a different format
 	// for UMLS this will the same as api above as one dataset comes
 	// from one release, for example 2012AB.
-	public EntityList readEntityDescriptions(EntityNameOrURI entityId,
+	public List<EntityListEntry> readEntityDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
 		/*
 			String match = entityId.getEntityName().getName();
