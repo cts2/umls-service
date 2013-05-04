@@ -25,6 +25,9 @@ package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
 
 import javax.annotation.Resource;
 
+import edu.mayo.cts2.framework.core.url.UrlConstructor;
+import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntrySummary;
+import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
@@ -32,6 +35,9 @@ import edu.mayo.cts2.framework.model.core.RoleReference;
 import edu.mayo.cts2.framework.model.core.SourceAndRoleReference;
 import edu.mayo.cts2.framework.model.core.SourceReference;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A factory for creating CodeSystem objects.
@@ -43,6 +49,9 @@ public class CodeSystemFactory {
 	
 	@Resource
 	private CodeSystemUriHandler codeSystemUriHandler;
+
+    @Resource
+    private UrlConstructor urlConstructor;
 
 	private static final String LICENSE_CONTACT = "LicenseContact";
 
@@ -66,6 +75,18 @@ public class CodeSystemFactory {
 		
 		return entry;
 	}
+
+    protected CodeSystemCatalogEntrySummary createCodeSystemSummary(RootSourceDTO rootSourceDTO){
+        String sab = rootSourceDTO.getAbbreviation();
+
+        CodeSystemCatalogEntrySummary summary = new CodeSystemCatalogEntrySummary();
+        summary.setCodeSystemName(sab);
+        summary.setAbout(this.codeSystemUriHandler.getUri(sab));
+        summary.setFormalName(rootSourceDTO.getShortName());
+        summary.setHref(this.urlConstructor.createCodeSystemUrl(sab));
+
+        return summary;
+    }
 	
 	private SourceAndRoleReference createSourceAndRole(String role, String value){
 		SourceAndRoleReference ref = new SourceAndRoleReference();
@@ -75,4 +96,13 @@ public class CodeSystemFactory {
 		return ref;
 	}
 
+    protected List<CodeSystemCatalogEntrySummary> createCodeSystem(List<RootSourceDTO> dtos) {
+        List<CodeSystemCatalogEntrySummary> returnList = new ArrayList<CodeSystemCatalogEntrySummary>();
+
+        for(RootSourceDTO dto : dtos){
+            returnList.add(this.createCodeSystemSummary(dto));
+        }
+
+        return returnList;
+    }
 }

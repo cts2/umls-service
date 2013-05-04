@@ -26,8 +26,8 @@
   </select>
   
     <select id="searchRootSourceDTO" 
-  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
-  	parameterType="string">
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO"
+    parameterType="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper$SearchObject">
     SELECT
     	rs.ABBREVIATION as abbreviation, 
     	rs.SHORT_NAME AS shortName,
@@ -42,6 +42,7 @@
     	CONTACT_INFORMATION cic
     ON
     	rs.CONTENT_CONTACT = cic.ID
+    <if test="searchObject != null">
     WHERE
     	<if test="searchObject.abbreviation != null">
     	rs.ABBREVIATION LIKE #{searchObject.abbreviation}
@@ -50,6 +51,7 @@
     	<if test="searchObject.shortName != null">
     	rs.SHORT_NAME LIKE #{searchObject.shortName}
     	</if>
+    </if>
     	
   </select>
 
