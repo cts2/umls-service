@@ -40,6 +40,14 @@ class UmlsCodeSystemQueryServiceTestIT extends AbstractTestITBase {
     }
 
     @Test
+    void testQueryCorrectSize(){
+        doInDirectory(
+                {   dir ->
+                    assertEquals 50, dir.entries.size
+                })
+    }
+
+    @Test
     void testQueryAtEnd(){
         doInDirectory(
                 {   dir ->

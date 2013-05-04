@@ -43,7 +43,10 @@ public interface CodeSystemMapper {
 	 */
 	public RootSourceDTO getRootSourceDTO(String sab);
 	
-	public List<RootSourceDTO> searchRootSourceDTO(@Param("searchObject") SearchObject searchObject, int start, int end);
+	public List<RootSourceDTO> searchRootSourceDTOs(
+        @Param("searchObject") SearchObject searchObject,
+        @Param("start") int start,
+        @Param("end") int end);
 	
 	public static class SearchObject {
 

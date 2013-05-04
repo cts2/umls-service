@@ -73,12 +73,16 @@ public class CodeSystemRepository {
 	public DirectoryResult<CodeSystemCatalogEntrySummary> searchCodeSystemDirectorySummaries(
             CodeSystemMapper.SearchObject searchObject, int start, int end) {
 		
-		List<RootSourceDTO> dto = this.codeSystemMapper.searchRootSourceDTO(searchObject, start, end + 1);
+		List<RootSourceDTO> dto = this.codeSystemMapper.searchRootSourceDTOs(searchObject, start, end + 1);
 
         if(dto != null){
             List<CodeSystemCatalogEntrySummary> dtos = codeSystemFactory.createCodeSystem(dto);
 
-            boolean atEnd = (dtos.size() == (end + 1) - start);
+            boolean atEnd = ! (dtos.size() == (end + 1) - start);
+
+            if(! atEnd){
+                dtos.remove(dto.size() - 1);
+            }
 
             return new DirectoryResult<CodeSystemCatalogEntrySummary>(dtos, atEnd);
         } else {
