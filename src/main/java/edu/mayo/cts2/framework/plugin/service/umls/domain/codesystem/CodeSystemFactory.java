@@ -27,7 +27,9 @@ import javax.annotation.Resource;
 
 import edu.mayo.cts2.framework.core.url.UrlConstructor;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntrySummary;
+import edu.mayo.cts2.framework.model.core.EntryDescription;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
+import edu.mayo.cts2.framework.model.util.ModelUtils;
 import org.springframework.stereotype.Component;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
@@ -72,6 +74,12 @@ public class CodeSystemFactory {
 		entry.setFormalName(rootSourceDTO.getShortName());
 		entry.addSourceAndRole(this.createSourceAndRole(CONTENT_CONTACT, rootSourceDTO.getContentContact()));
 		entry.addSourceAndRole(this.createSourceAndRole(LICENSE_CONTACT, rootSourceDTO.getLicenseContact()));
+
+        EntryDescription entryDescription = new EntryDescription();
+        entryDescription.setValue(ModelUtils.toTsAnyType(rootSourceDTO.getExpandedForm()));
+        entry.setResourceSynopsis(entryDescription);
+
+        entry.setVersions(this.urlConstructor.createVersionsOfCodeSystemUrl(sab));
 		
 		return entry;
 	}
@@ -84,6 +92,11 @@ public class CodeSystemFactory {
         summary.setAbout(this.codeSystemUriHandler.getUri(sab));
         summary.setFormalName(rootSourceDTO.getShortName());
         summary.setHref(this.urlConstructor.createCodeSystemUrl(sab));
+        summary.setVersions(this.urlConstructor.createVersionsOfCodeSystemUrl(sab));
+
+        EntryDescription entryDescription = new EntryDescription();
+        entryDescription.setValue(ModelUtils.toTsAnyType(rootSourceDTO.getExpandedForm()));
+        summary.setResourceSynopsis(entryDescription);
 
         return summary;
     }

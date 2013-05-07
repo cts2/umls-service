@@ -33,6 +33,7 @@
         SELECT
             rs.ABBREVIATION as abbreviation,
             rs.SHORT_NAME AS shortName,
+            rs.EXPANDED_FORM as expandedForm,
             cil.VALUE AS licenseContact,
             cic.VALUE AS contentContact,
             ROW_NUMBER()

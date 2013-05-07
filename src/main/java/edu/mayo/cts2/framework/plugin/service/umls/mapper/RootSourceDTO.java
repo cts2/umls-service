@@ -37,6 +37,8 @@ public class RootSourceDTO implements Serializable {
 	private String abbreviation;
 	
 	private String shortName;
+
+    private String expandedForm;
 	
 	private String contentContact;
 	
@@ -84,4 +86,11 @@ public class RootSourceDTO implements Serializable {
 		this.shortName = shortName;
 	}
 
+    public String getExpandedForm() {
+        return expandedForm;
+    }
+
+    public void setExpandedForm(String expandedForm) {
+        this.expandedForm = expandedForm;
+    }
 }
