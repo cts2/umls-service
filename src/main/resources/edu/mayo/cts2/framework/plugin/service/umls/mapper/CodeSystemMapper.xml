@@ -49,12 +49,13 @@
             rs.CONTENT_CONTACT = cic.ID
         <if test="searchObject != null">
         WHERE
+            1=1
             <if test="searchObject.abbreviation != null">
-            rs.ABBREVIATION LIKE #{searchObject.abbreviation}
+            AND UPPER(rs.ABBREVIATION) LIKE UPPER(#{searchObject.abbreviation})
             </if>
-            AND
+
             <if test="searchObject.shortName != null">
-            rs.SHORT_NAME LIKE #{searchObject.shortName}
+            AND UPPER(rs.SHORT_NAME) LIKE UPPER(#{searchObject.shortName})
             </if>
         </if>
     )

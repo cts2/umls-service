@@ -7,18 +7,20 @@ import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 
 public abstract class AbstractCodeSystemQueryStateUpdater implements StateUpdater<CodeSystemMapper.SearchObject>{
 
+    private static final String WILDCARD = "%";
+
 	@Override
 	public CodeSystemMapper.SearchObject updateState(CodeSystemMapper.SearchObject currentState,
 			MatchAlgorithmReference matchAlgorithm, 
 			String queryString) {
 		if (matchAlgorithm.equals(StandardMatchAlgorithmReference.CONTAINS.getMatchAlgorithmReference())) {
-            return this.doSet(currentState, queryString);
+            return this.doSet(currentState, WILDCARD + queryString + WILDCARD);
 		}
         if (matchAlgorithm.equals(StandardMatchAlgorithmReference.EXACT_MATCH.getMatchAlgorithmReference())) {
             return this.doSet(currentState, queryString);
 		}
 		if (matchAlgorithm.equals(StandardMatchAlgorithmReference.STARTS_WITH.getMatchAlgorithmReference())) {
-            return this.doSet(currentState, queryString);
+            return this.doSet(currentState, queryString + WILDCARD);
 		}
 
         throw new IllegalStateException();
@@ -30,6 +32,9 @@ public abstract class AbstractCodeSystemQueryStateUpdater implements StateUpdate
 
         @Override
         protected CodeSystemMapper.SearchObject doSet(CodeSystemMapper.SearchObject currentState, String query) {
+            if(currentState == null){
+                currentState = new CodeSystemMapper.SearchObject();
+            }
             currentState.setAbbreviation(query);
             return currentState;
         }
