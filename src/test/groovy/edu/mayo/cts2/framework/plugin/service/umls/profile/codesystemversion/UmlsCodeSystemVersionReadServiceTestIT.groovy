@@ -1,7 +1,9 @@
-package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem
+package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion
 
 import edu.mayo.cts2.framework.core.xml.Cts2Marshaller
 import edu.mayo.cts2.framework.model.util.ModelUtils
+import edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem.UmlsCodeSystemReadService
+import edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion.UmlsCodeSystemVersionReadService
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase
 import org.junit.Test
 
@@ -10,16 +12,16 @@ import javax.xml.transform.stream.StreamResult
 
 import static org.junit.Assert.*
 
-class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
+class UmlsCodeSystemVersionReadServiceTestIT extends AbstractTestITBase {
 
 	@Resource
-	UmlsCodeSystemReadService service
+	UmlsCodeSystemVersionReadService service
 
 	@Resource
 	Cts2Marshaller marshaller
 	
 	def doRead() {
-		def cs = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
+		def cs = service.read(ModelUtils.nameOrUriFromName("LNC240"), null)
 	
 		cs
 	}
@@ -32,15 +34,14 @@ class UmlsCodeSystemReadServiceTestIT extends AbstractTestITBase {
 	@Test
 	void testRead()
 	{
-		def csn = service.read(ModelUtils.nameOrUriFromName("LNC"), null)
+		def csn = service.read(ModelUtils.nameOrUriFromName("LNC240"), null)
 		assertNotNull csn
-		println "found " + csn.getCodeSystemName()
 	}
 
 	@Test
 	void testExists()
 	{
-		assertTrue service.exists(ModelUtils.nameOrUriFromName("LNC"), null)
+		assertTrue service.exists(ModelUtils.nameOrUriFromName("LNC240"), null)
 		assertFalse service.exists(ModelUtils.nameOrUriFromName("CODESYSTEMNOTTHERE"), null)
 	}
 
