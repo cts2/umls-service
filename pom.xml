@@ -82,7 +82,6 @@
 							!javax.portlet*,
 							!javax.xml.rpc*,
 							!javax.servlet.*,
-							!net.sf.cglib.*,
 							!org.apache.avalon.*,
 							!org.apache.log,
 							!org.apache.log.*,
@@ -124,6 +123,8 @@
 							edu.mayo.cts2.framework.model.service.valueset,
 							edu.mayo.cts2.framework.model.service.valuesetdefinition,
 							edu.mayo.cts2.framework.service.provider,
+                            net.sf.cglib.proxy,
+                            net.sf.cglib.reflect,
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Transitive>true</Embed-Transitive>
@@ -139,6 +140,8 @@
 							!spring-web,
 							!spring-expression,
 							!commons-logging,
+                            !cglib,
+                            !cglib-nodep,
 							!aopalliance,
 							!log4j,
 							scala-library,

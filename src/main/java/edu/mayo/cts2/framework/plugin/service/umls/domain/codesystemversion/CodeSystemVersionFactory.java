@@ -100,7 +100,7 @@ public class CodeSystemVersionFactory {
         String uri = this.codeSystemVersionUriHandler.getUri(vsab);
         summary.setAbout(uri);
         summary.setDocumentURI(uri);
-        summary.setHref(this.urlConstructor.createCodeSystemUrl(vsab));
+        summary.setHref(this.urlConstructor.createCodeSystemVersionUrl(sab, vsab));
 
         EntryDescription entryDescription = new EntryDescription();
         entryDescription.setValue(ModelUtils.toTsAnyType(sourceDTO.getExpandedForm()));
