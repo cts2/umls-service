@@ -24,7 +24,6 @@
 package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +41,10 @@ public interface CodeSystemVersionMapper {
 	 * @return the root source dto
 	 */
 	public SourceDTO getSourceDTO(String vsab);
+
+    public SourceDTO getSourceDTOBySabAndVersion(
+            @Param("sab") String sab,
+            @Param("version") String version);
 	
 	public List<SourceDTO> searchSourceDTOs(
             @Param("searchObject") SearchObject searchObject,

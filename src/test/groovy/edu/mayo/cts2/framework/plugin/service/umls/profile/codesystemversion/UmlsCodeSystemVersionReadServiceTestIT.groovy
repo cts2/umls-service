@@ -1,57 +1,28 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion
 
-import edu.mayo.cts2.framework.core.xml.Cts2Marshaller
 import edu.mayo.cts2.framework.model.util.ModelUtils
-import edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem.UmlsCodeSystemReadService
-import edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion.UmlsCodeSystemVersionReadService
-import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase
-import org.junit.Test
+import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractReadTestITBase
+import edu.mayo.cts2.framework.service.profile.ReadService
 
 import javax.annotation.Resource
-import javax.xml.transform.stream.StreamResult
 
-import static org.junit.Assert.*
-
-class UmlsCodeSystemVersionReadServiceTestIT extends AbstractTestITBase {
+class UmlsCodeSystemVersionReadServiceTestIT extends AbstractReadTestITBase {
 
 	@Resource
 	UmlsCodeSystemVersionReadService service
 
-	@Resource
-	Cts2Marshaller marshaller
-	
-	def doRead() {
-		def cs = service.read(ModelUtils.nameOrUriFromName("LNC240"), null)
-	
-		cs
-	}
-	
-	@Test
-	void testSetUp(){
-		assertNotNull service
-	}
+    @Override
+    def getGoodIdentifier() {
+        new ModelUtils().nameOrUriFromName("AIR93")
+    }
 
-	@Test
-	void testRead()
-	{
-		def csn = service.read(ModelUtils.nameOrUriFromName("LNC240"), null)
-		assertNotNull csn
-	}
+    @Override
+    def getBadIdentifier() {
+        new ModelUtils().nameOrUriFromName("__INVALID__")
+    }
 
-	@Test
-	void testExists()
-	{
-		assertTrue service.exists(ModelUtils.nameOrUriFromName("LNC240"), null)
-		assertFalse service.exists(ModelUtils.nameOrUriFromName("CODESYSTEMNOTTHERE"), null)
-	}
-
-	
-	@Test
-	void TestValidXml() {
-		def cs = doRead()
-
-		assertNotNull cs
-
-		marshaller.marshal(cs, new StreamResult(new StringWriter()))
-	}
+    @Override
+    def ReadService getService(){
+        service
+    }
 }

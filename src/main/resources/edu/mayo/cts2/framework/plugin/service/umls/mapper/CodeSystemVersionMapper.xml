@@ -4,16 +4,31 @@
 
 <mapper namespace="edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemVersionMapper">
 
+    <sql id="getSourceDTOSql">
+        SELECT
+            s.ABBREVIATION as abbreviation,
+            s.EXPANDED_FORM as expandedForm,
+            s.ROOT_SOURCE as rootSource
+        FROM SOURCES s
+    </sql>
+
+
   <select id="getSourceDTO"
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.SourceDTO"
   	parameterType="string">
-    SELECT
-    	s.ABBREVIATION as abbreviation,
-        s.EXPANDED_FORM as expandedForm,
-        s.ROOT_SOURCE as rootSource
-    FROM SOURCES s
+    <include refid="getSourceDTOSql"/>
     WHERE
     	s.ABBREVIATION = #{vsab}
+  </select>
+
+  <select id="getSourceDTOBySabAndVersion"
+            resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.SourceDTO"
+            parameterType="string">
+        <include refid="getSourceDTOSql"/>
+        WHERE
+            s.ROOT_SOURCE = #{sab}
+            AND
+            s.VERSION = #{version}
   </select>
   
   <select id="searchSourceDTOs"
