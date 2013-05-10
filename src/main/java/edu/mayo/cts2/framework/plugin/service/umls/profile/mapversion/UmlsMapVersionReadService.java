@@ -9,10 +9,12 @@ import edu.mayo.cts2.framework.model.mapversion.MapVersion;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.mapversion.MapVersionReadService;
+import org.springframework.transaction.annotation.Transactional;
 
 public class UmlsMapVersionReadService extends AbstractUmlsBaseService
 	implements MapVersionReadService {
 
+    @Transactional
 	@Override
 	public MapVersion readByTag(
 			NameOrURI parentIdentifier,
@@ -28,11 +30,11 @@ public class UmlsMapVersionReadService extends AbstractUmlsBaseService
 		return mapVersion;
 	}
 
+    @Transactional
 	@Override
 	public boolean existsByTag(NameOrURI parentIdentifier,
 			VersionTagReference tag, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -42,14 +44,13 @@ public class UmlsMapVersionReadService extends AbstractUmlsBaseService
 
 	@Override
 	public MapVersion read(NameOrURI identifier, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return null;
+        throw new UnsupportedOperationException();
 	}
 
+    @Transactional
 	@Override
 	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return false;
+        throw new UnsupportedOperationException();
 	}
 
 }

@@ -33,6 +33,7 @@ import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemRepository;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemReadService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implements CodeSystemReadService {
@@ -40,6 +41,7 @@ public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implement
 	@Resource
 	private CodeSystemRepository codeSystemRepository;
 
+    @Transactional
 	@Override
 	public CodeSystemCatalogEntry read(
 			NameOrURI identifier,
@@ -51,9 +53,9 @@ public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implement
 		}
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) {
-
 		return (this.read(identifier, readContext) != null);
 	}
 

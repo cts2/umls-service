@@ -38,6 +38,7 @@ import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQueryService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UmlsEntityQueryService 
@@ -48,8 +49,9 @@ public class UmlsEntityQueryService
 	private EntityQueryBuilderFactory entityQueryBuilderFactory;
 	
 	private EntityQueryStateUpdater stateUpdater = new EntityQueryStateUpdater();
-	
-	@Override
+
+    @Transactional
+    @Override
 	public DirectoryResult<EntityDirectoryEntry> getResourceSummaries(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
 		EntityQueryBuilder queryBuilder = 
@@ -64,7 +66,8 @@ public class UmlsEntityQueryService
 			resolve();	
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public DirectoryResult<EntityDescription> getResourceList(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
 		EntityDescriptionQueryBuilder descQueryBuilder = 
@@ -79,7 +82,8 @@ public class UmlsEntityQueryService
 				resolve();	
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public int count(EntityDescriptionQuery query) {
 		EntityQueryBuilder queryBuilder = 
 				this.entityQueryBuilderFactory.createEntityQueryBuilder(
@@ -122,7 +126,8 @@ public class UmlsEntityQueryService
 		return new HashSet<PredicateReference>();
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public boolean isEntityInSet(EntityNameOrURI entity, 
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
 		
@@ -146,7 +151,8 @@ public class UmlsEntityQueryService
 		return false;
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public EntityReferenceList resolveAsEntityReferenceList(
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) 
 	{

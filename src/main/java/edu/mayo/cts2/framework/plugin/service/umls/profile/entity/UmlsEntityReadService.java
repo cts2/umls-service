@@ -23,6 +23,7 @@ import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityRepositor
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionReadService;
 import edu.mayo.cts2.framework.service.profile.entitydescription.name.EntityDescriptionReadId;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UmlsEntityReadService 	extends AbstractUmlsBaseService 
@@ -30,8 +31,9 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 
 	@Resource
 	private EntityRepository entityRepository;
-	
-	@Override
+
+    @Transactional
+    @Override
 	public EntityDescription read(
 			EntityDescriptionReadId identifier,
 			ResolvedReadContext readContext) {
@@ -44,14 +46,16 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		return this.entityRepository.getEntityByIdAndNS(name, namespace);
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public boolean exists(EntityDescriptionReadId identifier,
 			ResolvedReadContext readContext) {
 
 		return (this.read(identifier, readContext) != null);
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public DirectoryResult<EntityListEntry> readEntityDescriptions(
 			EntityNameOrURI entityId, SortCriteria sortCriteria,
 			ResolvedReadContext readContext, Page page) {
@@ -60,8 +64,9 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		return this.entityRepository.getEntityDescriptionsList(match, namespace);
 	}
 
-	@Override
-	// Entities across code systems.
+    // Entities across code systems.
+    @Transactional
+    @Override
 	public EntityReference availableDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
 		String match = entityId.getEntityName().getName();
@@ -69,10 +74,11 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		return this.entityRepository.getEntityDescriptionsAsReference(match, namespace);
 	}
 
-	@Override
-	// Entities across code systems - in a different format
-	// for UMLS this will the same as api above as one dataset comes
-	// from one release, for example 2012AB.
+    // Entities across code systems - in a different format
+    // for UMLS this will the same as api above as one dataset comes
+    // from one release, for example 2012AB.
+    @Transactional
+    @Override
 	public List<EntityListEntry> readEntityDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
 		/*

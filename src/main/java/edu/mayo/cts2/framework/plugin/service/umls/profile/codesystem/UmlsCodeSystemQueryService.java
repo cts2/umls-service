@@ -17,6 +17,7 @@ import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.ResourceQuery;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemQueryService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class UmlsCodeSystemQueryService extends AbstractUmlsBaseService
         return new HashSet<PredicateReference>();
     }
 
+    @Transactional
     @Override
     public DirectoryResult<CodeSystemCatalogEntrySummary> getResourceSummaries(
             ResourceQuery query, SortCriteria sortCriteria, Page page) {
@@ -69,17 +71,17 @@ public class UmlsCodeSystemQueryService extends AbstractUmlsBaseService
                 .addStart(page.getStart()).resolve();
     }
 
+    @Transactional
     @Override
     public DirectoryResult<CodeSystemCatalogEntry> getResourceList(
             ResourceQuery query, SortCriteria sortCriteria, Page page) {
-        // TODO Auto-generated method stub
-        return null;
+       throw new UnsupportedOperationException();
     }
 
+    @Transactional
     @Override
     public int count(ResourceQuery query) {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
