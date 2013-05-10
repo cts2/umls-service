@@ -233,7 +233,7 @@
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>3.0</version>
-			<!--   <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -256,6 +256,13 @@
 			<version>${develpment.framework.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>edu.mayo.cts2.framework</groupId>
+            <artifactId>model</artifactId>
+            <version>${develpment.framework.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>edu.mayo.cts2.framework</groupId>
