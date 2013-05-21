@@ -14,6 +14,8 @@ import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.command.ResolvedFilter;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
+import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
+import edu.mayo.cts2.framework.model.core.EntityReference;
 import edu.mayo.cts2.framework.model.core.EntityReferenceList;
 import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
 import edu.mayo.cts2.framework.model.core.OpaqueData;
@@ -30,11 +32,13 @@ import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURIList;
 import edu.mayo.cts2.framework.model.service.core.Query;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
+import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityDescriptionQueryBuilder;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityQueryBuilder;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQueryService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UmlsEntityQueryService 
@@ -45,8 +49,9 @@ public class UmlsEntityQueryService
 	private EntityQueryBuilderFactory entityQueryBuilderFactory;
 	
 	private EntityQueryStateUpdater stateUpdater = new EntityQueryStateUpdater();
-	
-	@Override
+
+    @Transactional
+    @Override
 	public DirectoryResult<EntityDirectoryEntry> getResourceSummaries(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
 		EntityQueryBuilder queryBuilder = 
@@ -61,15 +66,32 @@ public class UmlsEntityQueryService
 			resolve();	
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public DirectoryResult<EntityDescription> getResourceList(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
-		throw new UnsupportedOperationException();
+		EntityDescriptionQueryBuilder descQueryBuilder = 
+				this.entityQueryBuilderFactory.createEntityDescriptionQueryBuilder(
+					this.getSupportedMatchAlgorithms(),
+					this.getSupportedSearchReferences());
+			
+			return descQueryBuilder.
+				addQuery(query).
+				addMaxToReturn(page.getMaxToReturn()).
+				addStart(page.getStart()).
+				resolve();	
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public int count(EntityDescriptionQuery query) {
-		throw new UnsupportedOperationException();
+		EntityQueryBuilder queryBuilder = 
+				this.entityQueryBuilderFactory.createEntityQueryBuilder(
+					this.getSupportedMatchAlgorithms(),
+					this.getSupportedSearchReferences());
+			
+			return queryBuilder.
+				addQuery(query).count();
 	}
 
 	@Override
@@ -104,17 +126,50 @@ public class UmlsEntityQueryService
 		return new HashSet<PredicateReference>();
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public boolean isEntityInSet(EntityNameOrURI entity, 
 			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
+		
+		if ((entity == null)||((entity.getUri() == null)&&(entity.getEntityName() == null)))
+			return false;
+		
+		EntityReferenceList refList = this.resolveAsEntityReferenceList(restrictions, readContext);
+		
+		for (EntityReference er : refList.getEntryAsReference())
+		{
+			for (DescriptionInCodeSystem desc :er.getKnownEntityDescription())
+			{
+				if (entity.getUri() != null)
+					return (entity.getUri().equals(desc.getHref()));
+				
+				if (entity.getEntityName() != null)
+					return (entity.getEntityName().equals(desc.getDesignation()));
+			}
+		}
+		
 		return false;
 	}
 
-	@Override
+    @Transactional
+    @Override
 	public EntityReferenceList resolveAsEntityReferenceList(
-			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) {
-		throw new UnsupportedOperationException();
+			EntityDescriptionQuery restrictions, ResolvedReadContext readContext) 
+	{
+		DirectoryResult<EntityDirectoryEntry> dir = this.getResourceSummaries(restrictions, null, new Page());
+		
+		EntityReferenceList elist = new EntityReferenceList();
+		
+		for (EntityDirectoryEntry entry : dir.getEntries())
+		{
+			EntityReference eref = new EntityReference();
+			
+			eref.setAbout(entry.getAbout());
+			eref.setKnownEntityDescription(entry.getKnownEntityDescription());
+			elist.addEntry(eref);
+		}
+		
+		return elist;
 	}
 
 	@Override

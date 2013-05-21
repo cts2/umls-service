@@ -1,4 +1,4 @@
-package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem
+package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion
 
 import edu.mayo.cts2.framework.model.util.ModelUtils
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractReadTestITBase
@@ -6,14 +6,14 @@ import edu.mayo.cts2.framework.service.profile.ReadService
 
 import javax.annotation.Resource
 
-class UmlsCodeSystemReadServiceTestIT extends AbstractReadTestITBase {
+class UmlsCodeSystemVersionReadServiceTestIT extends AbstractReadTestITBase {
 
 	@Resource
-	UmlsCodeSystemReadService service
+	UmlsCodeSystemVersionReadService service
 
     @Override
     def getGoodIdentifier() {
-        new ModelUtils().nameOrUriFromName("LNC")
+        new ModelUtils().nameOrUriFromName("AIR93")
     }
 
     @Override

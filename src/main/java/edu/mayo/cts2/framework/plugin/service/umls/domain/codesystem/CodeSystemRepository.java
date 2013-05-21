@@ -34,6 +34,8 @@ import edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchDao;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeSystemMapper;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO;
 
+import java.util.List;
+
 /**
  * The Class CodeSystemRepository.
  *
@@ -68,9 +70,24 @@ public class CodeSystemRepository {
 	}
 	
 	
-	public DirectoryResult<CodeSystemCatalogEntrySummary> getCodeSystemDirectorySummaryByKeyword(String state, int start, int end) {
+	public DirectoryResult<CodeSystemCatalogEntrySummary> searchCodeSystemDirectorySummaries(
+            CodeSystemMapper.SearchObject searchObject, int start, int end) {
 		
-		return null;// TODO
+		List<RootSourceDTO> dto = this.codeSystemMapper.searchRootSourceDTOs(searchObject, start, end + 1);
+
+        if(dto != null){
+            List<CodeSystemCatalogEntrySummary> dtos = codeSystemFactory.createCodeSystem(dto);
+
+            boolean atEnd = ! (dtos.size() == (end + 1) - start);
+
+            if(! atEnd){
+                dtos.remove(dto.size() - 1);
+            }
+
+            return new DirectoryResult<CodeSystemCatalogEntrySummary>(dtos, atEnd);
+        } else {
+            return null;
+        }
 		
 	}
 	

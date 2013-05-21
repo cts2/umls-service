@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHits;
@@ -66,4 +67,13 @@ public class ElasticSearchDao {
 			getHits();
 	}
 
+	public long count(QueryBuilder queryBuilder){
+		SearchResponse sh = this.client.
+			prepareSearch(INDEX_NAME).
+			setTypes("entity").
+			setQuery(queryBuilder).
+			execute().
+			actionGet();
+		return sh.getHits().totalHits();
+	}
 }

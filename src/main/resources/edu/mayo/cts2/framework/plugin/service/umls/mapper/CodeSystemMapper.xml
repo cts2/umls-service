@@ -25,32 +25,47 @@
     	rs.ABBREVIATION = #{sab}
   </select>
   
-    <select id="searchRootSourceDTO" 
-  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO" 
-  	parameterType="string">
+  <select id="searchRootSourceDTOs"
+  	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.RootSourceDTO">
     SELECT
-    	rs.ABBREVIATION as abbreviation, 
-    	rs.SHORT_NAME AS shortName,
-    	cil.VALUE AS licenseContact,
-    	cic.VALUE AS contentContact
-    FROM ROOT_SOURCES rs
-    INNER JOIN
-    	CONTACT_INFORMATION cil
-    ON
-    	rs.LICENSE_CONTACT = cil.ID
-    INNER JOIN
-    	CONTACT_INFORMATION cic
-    ON
-    	rs.CONTENT_CONTACT = cic.ID
+        *
+    FROM (
+        SELECT
+            rs.ABBREVIATION as abbreviation,
+            rs.SHORT_NAME AS shortName,
+            rs.EXPANDED_FORM as expandedForm,
+            cil.VALUE AS licenseContact,
+            cic.VALUE AS contentContact,
+            ROW_NUMBER()
+        OVER (ORDER BY rs.ABBREVIATION) rn
+        FROM ROOT_SOURCES rs
+        INNER JOIN
+            CONTACT_INFORMATION cil
+        ON
+            rs.LICENSE_CONTACT = cil.ID
+        INNER JOIN
+            CONTACT_INFORMATION cic
+        ON
+            rs.CONTENT_CONTACT = cic.ID
+        <if test="searchObject != null">
+        WHERE
+            1=1
+            <if test="searchObject.abbreviation != null">
+            AND UPPER(rs.ABBREVIATION) LIKE UPPER(#{searchObject.abbreviation})
+            </if>
+
+            <if test="searchObject.shortName != null">
+            AND UPPER(rs.SHORT_NAME) LIKE UPPER(#{searchObject.shortName})
+            </if>
+        </if>
+    )
     WHERE
-    	<if test="searchObject.abbreviation != null">
-    	rs.ABBREVIATION LIKE #{searchObject.abbreviation}
-    	</if>
-    	AND
-    	<if test="searchObject.shortName != null">
-    	rs.SHORT_NAME LIKE #{searchObject.shortName}
-    	</if>
-    	
+        rn
+    BETWEEN
+        #{start}
+        AND
+        #{end}
+
   </select>
 
 </mapper>

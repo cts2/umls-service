@@ -30,61 +30,23 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
-public class RootSourceDTO implements Serializable {
+public class SourceDTO implements Serializable {
 
 	private static final long serialVersionUID = 3750057062167264839L;
 
-	private String abbreviation;
-	
-	private String shortName;
+    private String abbreviation;
 
     private String expandedForm;
-	
-	private String contentContact;
-	
-	private String licenseContact;
 
-	public String getContentContact() {
-		return contentContact;
-	}
+    private String rootSource;
 
-	public void setContentContact(String contentContact) {
-		this.contentContact = contentContact;
-	}
+    public String getAbbreviation() {
+        return abbreviation;
+    }
 
-	public String getLicenseContact() {
-		return licenseContact;
-	}
-
-	public void setLicenseContact(String licenseContact) {
-		this.licenseContact = licenseContact;
-	}
-
-	/**
-	 * Gets the abbreviation.
-	 *
-	 * @return the abbreviation
-	 */
-	public String getAbbreviation() {
-		return abbreviation;
-	}
-
-	/**
-	 * Sets the abbreviation.
-	 *
-	 * @param abbreviation the new abbreviation
-	 */
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
-	}
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
 
     public String getExpandedForm() {
         return expandedForm;
@@ -92,5 +54,13 @@ public class RootSourceDTO implements Serializable {
 
     public void setExpandedForm(String expandedForm) {
         this.expandedForm = expandedForm;
+    }
+
+    public String getRootSource() {
+        return rootSource;
+    }
+
+    public void setRootSource(String rootSource) {
+        this.rootSource = rootSource;
     }
 }

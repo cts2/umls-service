@@ -23,6 +23,8 @@
 */
 package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 
@@ -41,13 +43,32 @@ public interface CodeSystemMapper {
 	 */
 	public RootSourceDTO getRootSourceDTO(String sab);
 	
-	public List<RootSourceDTO> searchRootSourceDTO(SearchObject searchObject);
+	public List<RootSourceDTO> searchRootSourceDTOs(
+        @Param("searchObject") SearchObject searchObject,
+        @Param("start") int start,
+        @Param("end") int end);
 	
-	public class SearchObject {
-		
-		private String shortName;
-		private String abbreviation;
-		
-	}
+	public static class SearchObject {
+
+        private String shortName;
+        private String abbreviation;
+
+        public String getAbbreviation() {
+            return abbreviation;
+        }
+
+        public void setAbbreviation(String abbreviation) {
+            this.abbreviation = abbreviation;
+        }
+
+
+        public String getShortName() {
+            return shortName;
+        }
+
+        public void setShortName(String shortName) {
+            this.shortName = shortName;
+        }
+    }
 	
 }

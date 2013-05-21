@@ -21,7 +21,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem;
+package edu.mayo.cts2.framework.plugin.service.umls.domain.uri;
 
 import org.springframework.stereotype.Component;
 
@@ -31,17 +31,17 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:kevin.peterson@mayo.edu">Kevin Peterson</a>
  */
 @Component
-public class CodeSystemUriHandler {
+public class CodeSystemVersionUriHandler {
 	
-	private final static String NLM_NS = "http://id.nlm.gov/sab/";
+	private final static String NLM_NS = "http://id.nlm.gov/vsab/";
 
 	/**
 	 * Gets the uri.
 	 *
-	 * @param sab the sab
+	 * @param vsab the vsab
 	 * @return the uri
 	 */
-	public String getUri(String sab){
-		return NLM_NS + sab;
+	public String getUri(String vsab){
+		return NLM_NS + vsab;
 	}
 }

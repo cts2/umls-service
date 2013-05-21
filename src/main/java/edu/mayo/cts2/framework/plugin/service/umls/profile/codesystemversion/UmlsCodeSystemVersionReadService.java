@@ -21,42 +21,75 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
+package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion;
 
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
+import edu.mayo.cts2.framework.model.codesystemversion.CodeSystemVersionCatalogEntry;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
+import edu.mayo.cts2.framework.model.core.VersionTagReference;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemRepository;
+import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystemversion.CodeSystemVersionRepository;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.codesystem.CodeSystemReadService;
+import edu.mayo.cts2.framework.service.profile.codesystemversion.CodeSystemVersionReadService;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 @Component
-public class UmlsCodeSystemReadService extends AbstractUmlsBaseService implements CodeSystemReadService {
+public class UmlsCodeSystemVersionReadService extends AbstractUmlsBaseService implements CodeSystemVersionReadService {
 
 	@Resource
-	private CodeSystemRepository codeSystemRepository;
+	private CodeSystemVersionRepository codeSystemVersionRepository;
 
     @Transactional
 	@Override
-	public CodeSystemCatalogEntry read(
+	public CodeSystemVersionCatalogEntry read(
 			NameOrURI identifier,
 			ResolvedReadContext readContext) {
 		if(identifier.getName() != null){
-			return this.codeSystemRepository.getCodeSystemBySab(identifier.getName());
+			return this.codeSystemVersionRepository.getCodeSystemByVsab(identifier.getName());
 		} else {
 			throw new UnsupportedOperationException("Read by URI not supported.");
 		}
 	}
 
     @Transactional
-    @Override
+	@Override
 	public boolean exists(NameOrURI identifier, ResolvedReadContext readContext) {
+
 		return (this.read(identifier, readContext) != null);
 	}
 
+    @Transactional
+    @Override
+    public boolean existsVersionId(NameOrURI codeSystem, String officialResourceVersionId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Transactional
+    @Override
+    public CodeSystemVersionCatalogEntry getCodeSystemByVersionId(NameOrURI codeSystem, String officialResourceVersionId, ResolvedReadContext readContext) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Transactional
+    @Override
+    public CodeSystemVersionCatalogEntry readByTag(NameOrURI parentIdentifier, VersionTagReference tag, ResolvedReadContext readContext) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Transactional
+    @Override
+    public boolean existsByTag(NameOrURI parentIdentifier, VersionTagReference tag, ResolvedReadContext readContext) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<VersionTagReference> getSupportedTags() {
+        throw new UnsupportedOperationException();
+    }
 }

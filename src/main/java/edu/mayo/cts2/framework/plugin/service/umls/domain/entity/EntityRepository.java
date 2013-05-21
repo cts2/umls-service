@@ -107,6 +107,33 @@ public class EntityRepository {
 		return new DirectoryResult<EntityListEntry>(list, true);
 	}
 	
+	public DirectoryResult<EntityDescription> getEntityDescriptionListEntriesByKeyword(QueryBuilder queryBuilder, int start, int end){
+		SearchHits hits = elasticSearchDao.search(queryBuilder, start, end);
+		
+		List<EntityDescription> list = new ArrayList<EntityDescription>();
+				
+		for(SearchHit hit : hits.getHits()){
+			try {
+				IndexedEntity entity = 
+					this.jsonMapper.readValue(hit.getSourceAsString(), IndexedEntity.class);
+				
+				entity.setScore(this.floatToDouble(hit.getScore()));
+				EntityDescription ed = 	entityFactory.createEntityDescription(entity);
+				if (ed != null)
+					list.add(ed);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			} 
+		}
+		
+		return new DirectoryResult<EntityDescription>(list, true);
+	}
+	
+	public long count(QueryBuilder queryBuilder){
+		long count = elasticSearchDao.count(queryBuilder);
+		return count;
+	}
+	
 	public EntityDescription getEntityByCui(String cui){
 		ConceptDTO conceptDto = this.entityMapper.getConceptDTO(cui);
 		

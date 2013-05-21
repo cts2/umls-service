@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>edu.mayo.cts2.framework</groupId>
 		<artifactId>base-service-plugin</artifactId>
-		<version>0.8.2-SNAPSHOT</version>
+		<version>0.8.2</version>
 	</parent>
 
 	<artifactId>umls-service</artifactId>
@@ -82,7 +82,6 @@
 							!javax.portlet*,
 							!javax.xml.rpc*,
 							!javax.servlet.*,
-							!net.sf.cglib.*,
 							!org.apache.avalon.*,
 							!org.apache.log,
 							!org.apache.log.*,
@@ -124,6 +123,9 @@
 							edu.mayo.cts2.framework.model.service.valueset,
 							edu.mayo.cts2.framework.model.service.valuesetdefinition,
 							edu.mayo.cts2.framework.service.provider,
+                            net.sf.cglib.core,
+                            net.sf.cglib.proxy,
+                            net.sf.cglib.reflect,
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Transitive>true</Embed-Transitive>
@@ -139,6 +141,8 @@
 							!spring-web,
 							!spring-expression,
 							!commons-logging,
+                            !cglib,
+                            !cglib-nodep,
 							!aopalliance,
 							!log4j,
 							scala-library,
@@ -230,7 +234,7 @@
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>3.0</version>
-			<!--   <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -253,6 +257,13 @@
 			<version>${develpment.framework.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>edu.mayo.cts2.framework</groupId>
+            <artifactId>model</artifactId>
+            <version>${develpment.framework.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>edu.mayo.cts2.framework</groupId>

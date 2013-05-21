@@ -22,7 +22,7 @@ import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.entity.NamedEntityDescription;
 import edu.mayo.cts2.framework.model.entity.types.DesignationRole;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
-import edu.mayo.cts2.framework.plugin.service.umls.domain.codesystem.CodeSystemUriHandler;
+import edu.mayo.cts2.framework.plugin.service.umls.domain.uri.CodeSystemUriHandler;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO;
@@ -220,6 +220,32 @@ public class EntityFactory {
 		return entry;
 	}
 	
+<<<<<<< HEAD
+=======
+	public EntityDescription createEntityDescription(IndexedEntity indexedEntity){
+		
+		String sab = indexedEntity.getSab();
+		String name = indexedEntity.getName();
+		
+		EntityDescription ed = new EntityDescription();
+
+		NamedEntityDescription namedEntity = new NamedEntityDescription();
+		
+		if ((sab == null)||(name == null))
+		{
+				namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
+	
+				namedEntity.setAbout(entityUriHandler.getUri(sab, name));
+				namedEntity.addEntityType(CONCEPT_TYPE);
+				namedEntity.setDescribingCodeSystemVersion(
+						this.buildCodeSystemVersionReference(sab));
+		}
+
+		ed.setNamedEntity(namedEntity);
+		return ed;
+	}
+	
+>>>>>>> 57d55656b1ee580ee0a4f7311958081251305aa7
 	public EntityListEntry createEntityListEntry(EntityDescription ed){
 
 		if (ed == null)
