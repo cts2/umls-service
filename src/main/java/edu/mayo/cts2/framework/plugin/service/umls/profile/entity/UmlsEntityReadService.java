@@ -1,21 +1,10 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
-import edu.mayo.cts2.framework.model.core.CodeSystemReference;
-import edu.mayo.cts2.framework.model.core.CodeSystemVersionReference;
-import edu.mayo.cts2.framework.model.core.EntityReference;
-import edu.mayo.cts2.framework.model.core.SortCriteria;
-import edu.mayo.cts2.framework.model.core.VersionTagReference;
+import edu.mayo.cts2.framework.model.core.*;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
-import edu.mayo.cts2.framework.model.entity.EntityList;
 import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityFactory;
@@ -23,7 +12,11 @@ import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityRepositor
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionReadService;
 import edu.mayo.cts2.framework.service.profile.entitydescription.name.EntityDescriptionReadId;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 public class UmlsEntityReadService 	extends AbstractUmlsBaseService 
@@ -64,14 +57,9 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		return this.entityRepository.getEntityDescriptionsList(match, namespace);
 	}
 
-<<<<<<< HEAD
-	@Override
-	// Entities across code systems.
-=======
     // Entities across code systems.
     @Transactional
     @Override
->>>>>>> 57d55656b1ee580ee0a4f7311958081251305aa7
 	public EntityReference availableDescriptions(EntityNameOrURI entityId,
 			ResolvedReadContext readContext) {
 		String match = entityId.getEntityName().getName();
@@ -79,20 +67,12 @@ public class UmlsEntityReadService 	extends AbstractUmlsBaseService
 		return this.entityRepository.getEntityDescriptionsAsReference(match, namespace);
 	}
 
-<<<<<<< HEAD
-	@Override
-	// Entities across code systems - in a different format
-	// for UMLS this will the same as api above as one dataset comes
-	// from one release, for example 2012AB.
-	public EntityList readEntityDescriptions(EntityNameOrURI entityId,
-=======
     // Entities across code systems - in a different format
     // for UMLS this will the same as api above as one dataset comes
     // from one release, for example 2012AB.
     @Transactional
     @Override
 	public List<EntityListEntry> readEntityDescriptions(EntityNameOrURI entityId,
->>>>>>> 57d55656b1ee580ee0a4f7311958081251305aa7
 			ResolvedReadContext readContext) {
 		/*
 			String match = entityId.getEntityName().getName();

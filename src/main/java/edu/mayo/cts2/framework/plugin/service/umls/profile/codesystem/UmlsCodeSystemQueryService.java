@@ -1,15 +1,5 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
 
-<<<<<<< HEAD
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-
-=======
->>>>>>> 57d55656b1ee580ee0a4f7311958081251305aa7
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntrySummary;

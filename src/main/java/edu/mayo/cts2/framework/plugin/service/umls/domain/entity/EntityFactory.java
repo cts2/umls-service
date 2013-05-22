@@ -1,25 +1,7 @@
 package edu.mayo.cts2.framework.plugin.service.umls.domain.entity;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
-import edu.mayo.cts2.framework.model.core.CodeSystemReference;
-import edu.mayo.cts2.framework.model.core.CodeSystemVersionReference;
-import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
-import edu.mayo.cts2.framework.model.core.EntityReference;
-import edu.mayo.cts2.framework.model.core.LanguageReference;
-import edu.mayo.cts2.framework.model.core.NameAndMeaningReference;
-import edu.mayo.cts2.framework.model.core.RESTResource;
-import edu.mayo.cts2.framework.model.core.URIAndEntityName;
-import edu.mayo.cts2.framework.model.entity.Designation;
-import edu.mayo.cts2.framework.model.entity.EntityDescription;
-import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
-import edu.mayo.cts2.framework.model.entity.EntityList;
-import edu.mayo.cts2.framework.model.entity.EntityListEntry;
-import edu.mayo.cts2.framework.model.entity.NamedEntityDescription;
+import edu.mayo.cts2.framework.model.core.*;
+import edu.mayo.cts2.framework.model.entity.*;
 import edu.mayo.cts2.framework.model.entity.types.DesignationRole;
 import edu.mayo.cts2.framework.model.util.ModelUtils;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.uri.CodeSystemUriHandler;
@@ -27,6 +9,10 @@ import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Descrip
 import edu.mayo.cts2.framework.plugin.service.umls.index.IndexedEntity;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.CodeDTO;
 import edu.mayo.cts2.framework.plugin.service.umls.mapper.ConceptDTO;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 public class EntityFactory {
@@ -219,9 +205,7 @@ public class EntityFactory {
 		
 		return entry;
 	}
-	
-<<<<<<< HEAD
-=======
+
 	public EntityDescription createEntityDescription(IndexedEntity indexedEntity){
 		
 		String sab = indexedEntity.getSab();
@@ -244,8 +228,7 @@ public class EntityFactory {
 		ed.setNamedEntity(namedEntity);
 		return ed;
 	}
-	
->>>>>>> 57d55656b1ee580ee0a4f7311958081251305aa7
+
 	public EntityListEntry createEntityListEntry(EntityDescription ed){
 
 		if (ed == null)
