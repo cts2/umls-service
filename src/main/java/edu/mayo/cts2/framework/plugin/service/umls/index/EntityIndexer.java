@@ -1,12 +1,7 @@
 package edu.mayo.cts2.framework.plugin.service.umls.index;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
+import edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
@@ -14,8 +9,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import edu.mayo.cts2.framework.plugin.service.umls.index.IndexableEntity.Description;
-import edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class EntityIndexer implements InitializingBean {
@@ -102,6 +100,7 @@ public class EntityIndexer implements InitializingBean {
 				IndexableEntity entity = new IndexableEntity();
 				entity.setName(row.getUi());
 				entity.setSab(row.getRootSource());
+                entity.setVab(row.getSource());
 				entity.getDescriptions().add(new Description(row.getString()));
 				
 				groups.put(currentKey, entity);

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>edu.mayo.cts2.framework</groupId>
 		<artifactId>base-service-plugin</artifactId>
-		<version>0.8.2</version>
+		<version>0.8.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>umls-service</artifactId>
@@ -58,7 +58,6 @@
 
 	<properties>
 		<forkMode>never</forkMode>
-		<lexevs.version>6.0.4-SNAPSHOT</lexevs.version>
 		<spring-security.version>${org.springframework-version}</spring-security.version>
 	</properties>
 

@@ -52,8 +52,9 @@
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO">
 		select 
 			c.UI as UI, 
-			c.ROOT_SOURCE as ROOTSOURCE, 
-			s.NAME as STRING 
+			c.ROOT_SOURCE as ROOTSOURCE,
+            c.SOURCE as SOURCE,
+            s.NAME as STRING
 		from Codes c
 		inner join
 			Atoms a on c.id = a.code_id
