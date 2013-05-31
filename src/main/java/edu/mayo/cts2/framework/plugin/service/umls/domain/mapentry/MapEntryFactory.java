@@ -24,6 +24,9 @@ public class MapEntryFactory {
 	private EntityUriHandler entityUriHandler;
 
 	protected MapEntry createMapEntry(List<CuiToCodeDTO> dtos){
+		if (dtos.size() == 0) {
+			return null;
+		}
 		MapEntry mapEntry = new MapEntry();
 		mapEntry.setProcessingRule(MapProcessingRule.ALL_MATCHES);
 		

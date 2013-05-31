@@ -28,6 +28,16 @@ class UmlsMapEntryReadServiceTestIT extends AbstractTestITBase {
 		cs
 	}
 	
+	def doExistTrue() {
+		def readId = new MapEntryReadId("C0151907", "MTH", ModelUtils.nameOrUriFromName("MTH-SNOMEDCT-2012AB"))
+		service.exists(readId, null)
+	}
+	
+	def doExistFalse() {
+		def readId = new MapEntryReadId("d0151907", "MTH", ModelUtils.nameOrUriFromName("MTH-SNOMEDCT-2012AB"))
+		service.exists(readId, null)
+	}
+	
 	@Test
 	void testSetUp(){
 		assertNotNull service
@@ -36,9 +46,13 @@ class UmlsMapEntryReadServiceTestIT extends AbstractTestITBase {
 	@Test
 	void TestValidXml() {
 		def cs = doRead()
-
 		assertNotNull cs
-
 		marshaller.marshal(cs, new StreamResult(new StringWriter()))
+	}
+	
+	@Test
+	void TestExist() {
+		assertTrue doExistTrue()
+		assertFalse doExistFalse() 
 	}
 }

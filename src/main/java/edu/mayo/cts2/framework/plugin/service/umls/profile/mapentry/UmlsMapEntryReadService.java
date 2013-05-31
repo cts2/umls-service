@@ -41,8 +41,7 @@ public class UmlsMapEntryReadService extends AbstractUmlsBaseService
 	@Override
 	public boolean exists(MapEntryReadId identifier,
 			ResolvedReadContext readContext) {
-		// TODO Auto-generated method stub
-		return false;
+		return (this.read(identifier, readContext) != null);
 	}
 
 }
