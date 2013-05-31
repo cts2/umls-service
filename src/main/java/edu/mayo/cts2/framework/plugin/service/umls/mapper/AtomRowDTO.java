@@ -3,7 +3,9 @@ package edu.mayo.cts2.framework.plugin.service.umls.mapper;
 public class AtomRowDTO {
 	
 	private String ui;
-	
+
+    private String source;
+
 	private String rootSource;
 	
 	private String string;
@@ -31,4 +33,13 @@ public class AtomRowDTO {
 	public void setString(String string) {
 		this.string = string;
 	}
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
 }

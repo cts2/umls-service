@@ -176,20 +176,6 @@ public class EntityRepository {
 		return this.entityFactory.createEntityReference(codeDtos);
 	}
 	
-	/*
-	public EntityList getEntityDescriotionsAsEntityList(String id, String sab)
-	{
-		List<CodeDTO> codeDtos = null;
-		
-		if (sab == null)
-			codeDtos = this.entityMapper.getCodeDTOById(id);
-		else
-			codeDtos = this.entityMapper.getCodeDTOByIdSab(id, sab);
-		
-		return this.entityFactory.createEntityList(codeDtos);
-	}
-	*/
-	
 	private double floatToDouble(float f){
 		return (double)f;
 	}

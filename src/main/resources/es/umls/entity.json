@@ -4,7 +4,10 @@
             "name": {
                 "type": "string"
             },
-            "code_system": {
+            "sab": {
+                "type": "string"
+            },
+            "vsab": {
                 "type": "string"
             },
             "descriptions": {

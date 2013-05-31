@@ -3,7 +3,9 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -17,7 +19,9 @@ import edu.mayo.cts2.framework.model.core.EntityReferenceList;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase;
+import edu.mayo.cts2.framework.service.command.restriction.EntityDescriptionQueryServiceRestrictions;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery;
@@ -55,8 +59,16 @@ public class UmlsEntityQueryServiceTestIT extends AbstractTestITBase
 		
 		Set<ResolvedFilter> filters = new HashSet<ResolvedFilter>();
 		filters.add(filter);
+
+		// Code System Restriction
+		NameOrURI csv = new NameOrURI();
+		csv.setName("AIR");
+		EntityDescriptionQueryServiceRestrictions queryRestrictions = new EntityDescriptionQueryServiceRestrictions();
+		Set<NameOrURI> versions = new HashSet<NameOrURI>();
+		versions.add(csv);
+		queryRestrictions.setCodeSystemVersions(versions);
 		
-		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, null);
+		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, queryRestrictions);
 		
 		DirectoryResult<EntityDirectoryEntry> summaries = service.getResourceSummaries(q, null, new Page());
 		
@@ -95,7 +107,15 @@ public class UmlsEntityQueryServiceTestIT extends AbstractTestITBase
 		Set<ResolvedFilter> filters = new HashSet<ResolvedFilter>();
 		filters.add(filter);
 		
-		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, null);
+		// Code System Restriction
+		NameOrURI csv = new NameOrURI();
+		csv.setName("AIR");
+		EntityDescriptionQueryServiceRestrictions queryRestrictions = new EntityDescriptionQueryServiceRestrictions();
+		Set<NameOrURI> versions = new HashSet<NameOrURI>();
+		versions.add(csv);
+		queryRestrictions.setCodeSystemVersions(versions);
+
+		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, queryRestrictions);
 
 
 		DirectoryResult<EntityDescription> descs = service.getResourceList(	q,
@@ -118,7 +138,6 @@ public class UmlsEntityQueryServiceTestIT extends AbstractTestITBase
 		filters.add(filter);
 		
 		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, null);
-
 
 		EntityReferenceList refList = service.resolveAsEntityReferenceList(q, null);
 		

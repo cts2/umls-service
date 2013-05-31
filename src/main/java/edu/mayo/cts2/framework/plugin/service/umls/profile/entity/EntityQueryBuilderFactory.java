@@ -1,13 +1,5 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.springframework.stereotype.Component;
-
 import edu.mayo.cts2.framework.filter.directory.AbstractStateBuildingDirectoryBuilder;
 import edu.mayo.cts2.framework.filter.directory.AbstractStateBuildingDirectoryBuilder.Callback;
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
@@ -15,8 +7,15 @@ import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
 import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
+import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.domain.entity.EntityRepository;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Set;
 
 @Component
 public class EntityQueryBuilderFactory {
@@ -64,6 +63,15 @@ public class EntityQueryBuilderFactory {
 				if(query.getFilterComponent() != null){
 					this.restrict(query.getFilterComponent());
 				}
+				
+                if(query.getRestrictions() != null && query.getRestrictions().getCodeSystemVersions() != null){
+                    Set<NameOrURI> versions = query.getRestrictions().getCodeSystemVersions();
+
+                    for(NameOrURI version : versions){
+                        this.updateState(
+                            QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("vsab", version)));
+                    }
+                }
 			}
 			
 			return this;
@@ -106,6 +114,14 @@ public class EntityQueryBuilderFactory {
 					if(query.getFilterComponent() != null){
 						this.restrict(query.getFilterComponent());
 					}
+                    if(query.getRestrictions() != null && query.getRestrictions().getCodeSystemVersions() != null){
+                        Set<NameOrURI> versions = query.getRestrictions().getCodeSystemVersions();
+
+                        for(NameOrURI version : versions){
+                            this.updateState(
+                                QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("vsab", version)));
+                        }
+                    }
 				}
 	
 			return this;

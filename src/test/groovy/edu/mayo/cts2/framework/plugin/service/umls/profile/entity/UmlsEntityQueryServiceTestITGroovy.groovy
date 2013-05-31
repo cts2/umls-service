@@ -1,12 +1,4 @@
 package edu.mayo.cts2.framework.plugin.service.umls.profile.entity
-
-import static org.junit.Assert.*
-
-import javax.annotation.Resource
-
-import org.junit.Ignore
-import org.junit.Test
-
 import edu.mayo.cts2.framework.core.xml.Cts2Marshaller
 import edu.mayo.cts2.framework.model.command.Page
 import edu.mayo.cts2.framework.model.command.ResolvedFilter
@@ -15,7 +7,14 @@ import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery
 import edu.mayo.cts2.framework.service.profile.mapentry.MapEntryQuery
+import org.junit.Ignore
 
+import javax.annotation.Resource
+
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
+
+@Ignore
 class UmlsEntityQueryServiceTestITGroovy extends AbstractTestITBase {
 
 	//
