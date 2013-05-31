@@ -135,26 +135,6 @@ public class EntityFactory {
 		return entityR;
 	}
 	
-	/*
-	public EntityList createEntityList(List<CodeDTO> codeDtos){
-		EntityDescription ed = this.createEntity(codeDtos);
-		
-		if (ed == null)
-			return null;
-		
-		EntityListEntry ele = this.createEntityListEntry(ed);
-		if (ele == null)
-			return null;
-		
-		EntityList entityL = new EntityList();
-		entityL.addEntry(ele);
-		RESTResource rr = new RESTResource();
-		rr.setResourceURI(ele.getHref());
-		entityL.setHeading(rr);
-		return entityL;
-	}
-	*/
-	
 	public EntityDirectoryEntry createEntityDirectoryEntry(IndexedEntity indexedEntity){
 		EntityDirectoryEntry entry = new EntityDirectoryEntry();
 		

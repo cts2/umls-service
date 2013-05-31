@@ -63,6 +63,15 @@ public class EntityQueryBuilderFactory {
 				if(query.getFilterComponent() != null){
 					this.restrict(query.getFilterComponent());
 				}
+				
+                if(query.getRestrictions() != null && query.getRestrictions().getCodeSystemVersions() != null){
+                    Set<NameOrURI> versions = query.getRestrictions().getCodeSystemVersions();
+
+                    for(NameOrURI version : versions){
+                        this.updateState(
+                            QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("vsab", version)));
+                    }
+                }
 			}
 			
 			return this;
