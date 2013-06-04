@@ -44,7 +44,7 @@ public class ElasticSearchLocalClientFactory extends
 			data(true).node();	
 
 		Client client = this.node.client();
-
+		
 		return client;
 	}
 	

@@ -69,7 +69,7 @@ public class EntityQueryBuilderFactory {
 
                     for(NameOrURI version : versions){
                         this.updateState(
-                            QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("vsab", version)));
+                            QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("sab", version.getName())));
                     }
                 }
 			}
@@ -119,7 +119,7 @@ public class EntityQueryBuilderFactory {
 
                         for(NameOrURI version : versions){
                             this.updateState(
-                                QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("vsab", version)));
+                                QueryBuilders.boolQuery().must(this.getState()).must(QueryBuilders.termQuery("sab", version.getName())));
                         }
                     }
 				}

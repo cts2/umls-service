@@ -46,7 +46,7 @@ public class EntityFactory {
 		
 		namedEntity.addDesignation(designation);
 		namedEntity.setDescribingCodeSystemVersion(
-			this.buildCodeSystemVersionReference(sab));
+			this.buildCodeSystemVersionReference(sab, null));
 		
 		namedEntity.addEntityType(CONCEPT_TYPE);
 
@@ -81,7 +81,7 @@ public class EntityFactory {
 					namedEntity.setAbout(entityUriHandler.getUri(sab, name));
 					namedEntity.addEntityType(CONCEPT_TYPE);
 					namedEntity.setDescribingCodeSystemVersion(
-							this.buildCodeSystemVersionReference(sab));
+							this.buildCodeSystemVersionReference(sab, null));
 
 			}
 		
@@ -124,7 +124,7 @@ public class EntityFactory {
 
 					DescriptionInCodeSystem descInCs = new DescriptionInCodeSystem();
 					descInCs.setHref(entityUriHandler.getUri(sab, name));
-					CodeSystemVersionReference csvRef = buildCodeSystemVersionReference(sab);
+					CodeSystemVersionReference csvRef = buildCodeSystemVersionReference(sab, null);
 					descInCs.setDescribingCodeSystemVersion(csvRef);
 					descInCs.setDesignation(codeDto.getName());
 					entityR.addKnownEntityDescription(descInCs);
@@ -140,6 +140,8 @@ public class EntityFactory {
 		
 		String sab = indexedEntity.getSab();
 		String name = indexedEntity.getName();
+		String vsab = indexedEntity.getVsab();
+		
 		entry.setName(ModelUtils.createScopedEntityName(name, sab));
 		
 		entry.setAbout(entityUriHandler.getUri(sab, name));
@@ -151,7 +153,7 @@ public class EntityFactory {
 		descriptionInCodeSystem.setDesignation(description.getValue());
 		descriptionInCodeSystem.
 			setDescribingCodeSystemVersion(
-				this.buildCodeSystemVersionReference(sab));
+				this.buildCodeSystemVersionReference(sab, vsab));
 		
 		entry.addKnownEntityDescription(descriptionInCodeSystem);
 		
@@ -165,6 +167,7 @@ public class EntityFactory {
 		
 		String sab = indexedEntity.getSab();
 		String name = indexedEntity.getName();
+		String vsab = indexedEntity.getVsab();
 		
 		EntityDescription ed = new EntityDescription();
 
@@ -175,7 +178,7 @@ public class EntityFactory {
 		descriptionInCodeSystem.setDesignation(description.getValue());
 		descriptionInCodeSystem.
 			setDescribingCodeSystemVersion(
-				this.buildCodeSystemVersionReference(sab));
+				this.buildCodeSystemVersionReference(sab, vsab));
 
 		
 		
@@ -190,19 +193,22 @@ public class EntityFactory {
 		
 		String sab = indexedEntity.getSab();
 		String name = indexedEntity.getName();
+		String vsab = indexedEntity.getVsab();
 		
 		EntityDescription ed = new EntityDescription();
 
 		NamedEntityDescription namedEntity = new NamedEntityDescription();
 		
-		if ((sab == null)||(name == null))
+		if ((sab != null)&&(name != null))
 		{
 				namedEntity.setEntityID(ModelUtils.createScopedEntityName(name, sab));
 	
 				namedEntity.setAbout(entityUriHandler.getUri(sab, name));
 				namedEntity.addEntityType(CONCEPT_TYPE);
 				namedEntity.setDescribingCodeSystemVersion(
-						this.buildCodeSystemVersionReference(sab));
+						this.buildCodeSystemVersionReference(sab, vsab));
+				
+				//namedEntity.setDescribingCodeSystemVersion(describingCodeSystemVersion)
 		}
 
 		ed.setNamedEntity(namedEntity);
@@ -223,9 +229,17 @@ public class EntityFactory {
 		return entry;
 	}
 	
-	private CodeSystemVersionReference buildCodeSystemVersionReference(String sab){
+	private CodeSystemVersionReference buildCodeSystemVersionReference(String sab, String vsab){
+		
+		if ((sab == null)&&(vsab == null))
+			return null;
+		
+		String vsabTemp = vsab;
+		if (vsabTemp == null)
+			vsabTemp = sab;
+		
 		NameAndMeaningReference versionRef = new NameAndMeaningReference();
-		versionRef.setContent(sab);
+		versionRef.setContent(vsabTemp);
 		versionRef.setUri(this.codeSystemUriHandler.getUri(sab));
 
 		CodeSystemReference codeSystemRef = new CodeSystemReference();

@@ -50,17 +50,21 @@
   
   <select id="streamEntities" 
   	resultType="edu.mayo.cts2.framework.plugin.service.umls.mapper.AtomRowDTO">
-		select 
+select 
 			c.UI as UI, 
 			c.ROOT_SOURCE as ROOTSOURCE,
-            c.SOURCE as SOURCE,
-            s.NAME as STRING
+      srcs.abbreviation as source,
+      s.NAME as STRING
 		from Codes c
 		inner join
 			Atoms a on c.id = a.code_id
 		inner join
 			String_Info s on a.string_info_id = s.id
-		order by c.ui
+    inner join
+     source_descriptors sd on sd.id = a.source_descriptor_id
+    inner join 
+     sources srcs on srcs.root_source = c.root_source
+		order by c.ROOT_SOURCE
   </select>
 
 </mapper>

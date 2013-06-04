@@ -100,7 +100,7 @@ public class EntityIndexer implements InitializingBean {
 				IndexableEntity entity = new IndexableEntity();
 				entity.setName(row.getUi());
 				entity.setSab(row.getRootSource());
-                entity.setVab(row.getSource());
+                entity.setVsab(row.getSource());
 				entity.getDescriptions().add(new Description(row.getString()));
 				
 				groups.put(currentKey, entity);
