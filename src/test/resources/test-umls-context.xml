@@ -11,7 +11,7 @@
 	<context:property-placeholder
         location="file:target/testconfigdir/webapp-rest/config/umls-service.properties"
         system-properties-mode="OVERRIDE" />
-        
+
    	<bean id="esClient"
 		class="edu.mayo.cts2.framework.plugin.service.umls.index.ElasticSearchLocalClientFactory">
 		<property name="classpathRoot" value="es" />

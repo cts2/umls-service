@@ -2,43 +2,36 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.command.Page;
-import edu.mayo.cts2.framework.model.command.ResolvedFilter;
 import edu.mayo.cts2.framework.model.command.ResolvedReadContext;
 import edu.mayo.cts2.framework.model.core.DescriptionInCodeSystem;
 import edu.mayo.cts2.framework.model.core.EntityReference;
 import edu.mayo.cts2.framework.model.core.EntityReferenceList;
 import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
-import edu.mayo.cts2.framework.model.core.OpaqueData;
 import edu.mayo.cts2.framework.model.core.PredicateReference;
 import edu.mayo.cts2.framework.model.core.PropertyReference;
 import edu.mayo.cts2.framework.model.core.SortCriteria;
-import edu.mayo.cts2.framework.model.core.SourceReference;
 import edu.mayo.cts2.framework.model.core.VersionTagReference;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
-import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
-import edu.mayo.cts2.framework.model.service.core.DocumentedNamespaceReference;
+import edu.mayo.cts2.framework.model.entity.EntityListEntry;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURI;
 import edu.mayo.cts2.framework.model.service.core.EntityNameOrURIList;
-import edu.mayo.cts2.framework.model.service.core.Query;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.AbstractUmlsBaseService;
-import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityDescriptionQueryBuilder;
 import edu.mayo.cts2.framework.plugin.service.umls.profile.entity.EntityQueryBuilderFactory.EntityQueryBuilder;
 import edu.mayo.cts2.framework.service.meta.StandardMatchAlgorithmReference;
 import edu.mayo.cts2.framework.service.meta.StandardModelAttributeReference;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQuery;
 import edu.mayo.cts2.framework.service.profile.entitydescription.EntityDescriptionQueryService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UmlsEntityQueryService 
@@ -68,18 +61,10 @@ public class UmlsEntityQueryService
 
     @Transactional
     @Override
-	public DirectoryResult<EntityDescription> getResourceList(
+	public DirectoryResult<EntityListEntry> getResourceList(
 			EntityDescriptionQuery query, SortCriteria sortCriteria, Page page) {
-		EntityDescriptionQueryBuilder descQueryBuilder = 
-				this.entityQueryBuilderFactory.createEntityDescriptionQueryBuilder(
-					this.getSupportedMatchAlgorithms(),
-					this.getSupportedSearchReferences());
-			
-			return descQueryBuilder.
-				addQuery(query).
-				addMaxToReturn(page.getMaxToReturn()).
-				addStart(page.getStart()).
-				resolve();	
+		
+		return null;
 	}
 
     @Transactional

@@ -3,9 +3,7 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.entity;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -17,7 +15,6 @@ import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.command.ResolvedFilter;
 import edu.mayo.cts2.framework.model.core.EntityReferenceList;
 import edu.mayo.cts2.framework.model.directory.DirectoryResult;
-import edu.mayo.cts2.framework.model.entity.EntityDescription;
 import edu.mayo.cts2.framework.model.entity.EntityDirectoryEntry;
 import edu.mayo.cts2.framework.model.service.core.NameOrURI;
 import edu.mayo.cts2.framework.plugin.service.umls.test.AbstractTestITBase;
@@ -95,36 +92,6 @@ public class UmlsEntityQueryServiceTestIT extends AbstractTestITBase
 		int count = service.count(q);
 		
 		assertTrue(count > 0);
-	}
-	
-	@Test
-	public void TestGetEntityDescriptionWithRestriction() 
-	{
-		ResolvedFilter filter = new ResolvedFilter();
-		filter.setMatchAlgorithmReference(StandardMatchAlgorithmReference.CONTAINS.getMatchAlgorithmReference());
-		filter.setMatchValue("colon");
-		filter.setPropertyReference(StandardModelAttributeReference.RESOURCE_SYNOPSIS.getPropertyReference());
-		
-		Set<ResolvedFilter> filters = new HashSet<ResolvedFilter>();
-		filters.add(filter);
-		
-		// Code System Restriction
-		NameOrURI csv = new NameOrURI();
-		csv.setName("csp");
-		EntityDescriptionQueryServiceRestrictions queryRestrictions = new EntityDescriptionQueryServiceRestrictions();
-		Set<NameOrURI> versions = new HashSet<NameOrURI>();
-		versions.add(csv);
-		queryRestrictions.setCodeSystemVersions(versions);
-
-		EntityDescriptionQuery q = new EntityDescriptionQueryImpl(filters, null, null, queryRestrictions);
-
-
-		DirectoryResult<EntityDescription> descs = service.getResourceList(	q,
-																			null,
-																			new Page());
-		
-		assertNotNull(descs);
-		assertTrue(descs.getEntries().size() > 0);
 	}
 	
 	@Test

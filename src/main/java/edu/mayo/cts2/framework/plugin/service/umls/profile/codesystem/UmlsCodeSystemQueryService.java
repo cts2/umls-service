@@ -2,6 +2,7 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystem;
 
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntry;
+import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntryListEntry;
 import edu.mayo.cts2.framework.model.codesystem.CodeSystemCatalogEntrySummary;
 import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
@@ -73,7 +74,7 @@ public class UmlsCodeSystemQueryService extends AbstractUmlsBaseService
 
     @Transactional
     @Override
-    public DirectoryResult<CodeSystemCatalogEntry> getResourceList(
+    public DirectoryResult<CodeSystemCatalogEntryListEntry> getResourceList(
             ResourceQuery query, SortCriteria sortCriteria, Page page) {
        throw new UnsupportedOperationException();
     }

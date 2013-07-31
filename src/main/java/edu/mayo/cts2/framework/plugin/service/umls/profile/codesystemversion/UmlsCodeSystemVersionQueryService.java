@@ -2,6 +2,7 @@ package edu.mayo.cts2.framework.plugin.service.umls.profile.codesystemversion;
 
 import edu.mayo.cts2.framework.filter.match.StateAdjustingPropertyReference;
 import edu.mayo.cts2.framework.model.codesystemversion.CodeSystemVersionCatalogEntry;
+import edu.mayo.cts2.framework.model.codesystemversion.CodeSystemVersionCatalogEntryListEntry;
 import edu.mayo.cts2.framework.model.codesystemversion.CodeSystemVersionCatalogEntrySummary;
 import edu.mayo.cts2.framework.model.command.Page;
 import edu.mayo.cts2.framework.model.core.MatchAlgorithmReference;
@@ -73,7 +74,7 @@ public class UmlsCodeSystemVersionQueryService extends AbstractUmlsBaseService
 
     @Transactional
     @Override
-    public DirectoryResult<CodeSystemVersionCatalogEntry> getResourceList(
+    public DirectoryResult<CodeSystemVersionCatalogEntryListEntry> getResourceList(
             CodeSystemVersionQuery query, SortCriteria sortCriteria, Page page) {
         throw new UnsupportedOperationException();
     }

@@ -18,18 +18,19 @@ class MetadataMapperTestIT extends AbstractTestITBase {
 	
 	@Test
 	void testGetName(){
-		assertEquals "2012AB", mapper.getReleaseInfoDTO().name
+		assertEquals "2012AA", mapper.getReleaseInfoDTO().name
 	}
 	
 	@Test
 	void testGetReleaseDate(){
-		def date = new Date().parse('yyyy/MM/dd/hh/mm', '2012/01/31/00/10')
-		assertEquals date.time, mapper.getReleaseInfoDTO().releaseDate.time
+		def date = new Date().parse('yyyy/MM/dd/hh/mm', '2012/01/24/00/04')
+		def rto = mapper.getReleaseInfoDTO().releaseDate
+		assertEquals date.time, rto.time
 	}
 	
 	@Test
 	void testGetDescription(){
-		assertEquals "Base Release for Fall 2012", mapper.getReleaseInfoDTO().description
+		assertEquals "Base Release for Spring 2012", mapper.getReleaseInfoDTO().description
 	}
 
 }

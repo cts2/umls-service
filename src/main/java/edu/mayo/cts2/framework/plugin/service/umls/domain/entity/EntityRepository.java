@@ -107,10 +107,10 @@ public class EntityRepository {
 		return new DirectoryResult<EntityListEntry>(list, true);
 	}
 	
-	public DirectoryResult<EntityDescription> getEntityDescriptionListEntriesByKeyword(QueryBuilder queryBuilder, int start, int end){
+	public DirectoryResult<EntityListEntry> getEntityDescriptionListEntriesByKeyword(QueryBuilder queryBuilder, int start, int end){
 		SearchHits hits = elasticSearchDao.search(queryBuilder, start, end);
 		
-		List<EntityDescription> list = new ArrayList<EntityDescription>();
+		List<EntityListEntry> list = new ArrayList<EntityListEntry>();
 				
 		for(SearchHit hit : hits.getHits()){
 			try {
@@ -120,13 +120,14 @@ public class EntityRepository {
 				entity.setScore(this.floatToDouble(hit.getScore()));
 				EntityDescription ed = 	entityFactory.createEntityDescription(entity);
 				if (ed != null)
-					list.add(ed);
+					//list.add(ed)
+					;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			} 
 		}
 		
-		return new DirectoryResult<EntityDescription>(list, true);
+		return new DirectoryResult<EntityListEntry>(list, true);
 	}
 	
 	public long count(QueryBuilder queryBuilder){
